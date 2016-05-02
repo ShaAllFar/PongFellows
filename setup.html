@@ -2,9 +2,43 @@
 <html>
   <head>
     <title>Game Setup</title>
-    <link href="style.css" rel="stylesheet" type="text/css"
+    <link href="nothomestyle.css" rel="stylesheet" type="text/css">
   </head>
   <body>
+    <div id="nav-bar">
+      <img src="img/logo.png" />
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="setup.html">Settings</a></li>
+        <li><a href="results.html">Records</a></li>
+        <li><a href="about-us.html">About Us</a></li>
+      </ul>
+    </div>
+    <div id="main-container">
+      <form>
+        <div id="content">
+          <div id="home-user">
+            <h3 id="home-name"></h3>
+            <p id="home-record"></p>
+          </div>
+          <div id="opponent">
+            <select id="opponent-name" name="select">
+              <option value="new-opponent">New Opponent</option>
+              <p id="opponent-record"></p>
+            </select>
+          </div>
+        </div>
+        <div id="options">
+          <h2 id="radio-name">Game Options</h2>
+          <input type="radio" name="end-score" value="11">11</input>
+          <input type="radio" name="end-score" value="15">15</input>
+          <input type="radio" name="end-score" value="21" checked>21</input>
+        </div>
+        <div id="button-container">
+          <button type="submit" name="Start" value="">Start Game</button>
+        </div>
+      </form>
+    </div>
     <script src="app.js"></script>
   </body>
 </html>
