@@ -50,7 +50,7 @@ function handleValidateEvent(event) {
   event.target.userName.value = null;
   event.target.password.value = null;
 }
-if (createuser) {
+if (createUser) {
   userLogin.addEventListener('submit', handleValidateEvent);
   createUser.addEventListener('submit', handleCreateUserEvent);
 }
