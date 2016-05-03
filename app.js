@@ -300,3 +300,76 @@ if (opponentName) { //This event will create a textbox with one or no options in
     }
   });
 }
+
+//Scoreboard.html js
+function pad2(number) {
+  return (number < 10 ? '0' : '') + number;
+}
+var homeUp = document.getElementById('home-up');
+var homeDown = document.getElementById('home-down');
+var awayUp = document.getElementById('away-up');
+var awayDown = document.getElementById('away-down');
+var homeScore = document.getElementById('home-score');
+var awayScore = document.getElementById('away-score');
+var globalHomeScore = pad2(0);
+var globalAwayScore = pad2(0);
+var buttonContainer = document.getElementById('button-container');
+var endGameScore = parseInt(JSON.parse(localStorage.storedGameScore));
+
+homeUp.addEventListener('click', homePowerUp);
+homeDown.addEventListener('click', homePowerDown);
+awayUp.addEventListener('click', awayPowerUp);
+awayDown.addEventListener('click', awayPowerDown);
+buttonContainer.style.visibility = 'hidden';
+
+function homePowerUp(event){
+  globalHomeScore++;
+  homeScore.textContent = pad2(globalHomeScore);
+  if (endGameScore == globalHomeScore){
+    if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
+      console.log('Home fucking won');
+      homeUp.removeEventListener('click', homePowerUp);
+      homeDown.removeEventListener('click', homePowerDown);
+      awayUp.removeEventListener('click', awayPowerUp);
+      awayDown.removeEventListener('click', awayPowerDown);
+      buttonContainer.style.visibility = 'visible';
+    }else{
+      endGameScore++;
+      console.log(endGameScore + 'this should go up by 1');
+    }
+  }
+};
+
+function homePowerDown(event){
+  globalHomeScore--;
+  if (globalHomeScore < 1) {
+    globalHomeScore = 00;
+  }
+  homeScore.textContent = pad2(globalHomeScore);
+}
+function awayPowerUp(event){
+  globalAwayScore++;
+  awayScore.textContent = pad2(globalAwayScore);
+
+  if (endGameScore == globalAwayScore){
+    if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
+      console.log('away fucking won');
+      homeUp.removeEventListener('click', homePowerUp);
+      homeDown.removeEventListener('click', homePowerDown);
+      awayUp.removeEventListener('click', awayPowerUp);
+      awayDown.removeEventListener('click', awayPowerDown);
+      buttonContainer.style.visibility = 'visible';
+    }else{
+      endGameScore++;
+      console.log(endGameScore + 'this should go up by 1');
+    }
+  }
+};
+
+function awayPowerDown(event){
+  globalAwayScore--;
+  if (globalAwayScore < 1) {
+    globalAwayScore = 00;
+  }
+  awayScore.textContent = pad2(globalAwayScore);
+};
