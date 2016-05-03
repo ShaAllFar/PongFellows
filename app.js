@@ -82,23 +82,25 @@ function handleValidateEvent(event) {
   return allUsers;
 })();
 //Finds the index at which the active user belongs in allUsers array
-(function findActiveUser() {
-  var checkForUser = JSON.parse(localStorage.storedActiveUser);
-  var foundUser = false;
-  for (var i = 0; i < allUsers.length; i++) {
-    if (checkForUser === allUsers[i].userName) {
-      foundUser = true;
-      activeUserIndex = i;
+if (localStorage.storedActiveUser) {
+  (function findActiveUser() {
+    var checkForUser = JSON.parse(localStorage.storedActiveUser);
+    var foundUser = false;
+    for (var i = 0; i < allUsers.length; i++) {
+      if (checkForUser === allUsers[i].userName) {
+        foundUser = true;
+        activeUserIndex = i;
+      }
     }
-  }
-  if (foundUser) {
-    console.log('The active user is ' + checkForUser);
-    return activeUserIndex;
-  }
-  if (!foundUser) {
-    console.log('user does not exist');
-  }
-})();
+    if (foundUser) {
+      console.log('The active user is ' + checkForUser);
+      return activeUserIndex;
+    }
+    if (!foundUser) {
+      console.log('user does not exist');
+    }
+  })();
+}
 //Finds an opponent's index inside an active user's opponentsArray with an opponent's
 //name passed as a parameter
 function findOpponentIndex(opponentNameValue) {
