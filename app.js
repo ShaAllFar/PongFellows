@@ -13,6 +13,7 @@ var opponentRecord = document.getElementById('opponent');
 var radioScore = document.getElementById('radio-score');
 var endScore = document.getElementsByName('end-score');
 var homeRecord = document.getElementById('home-record');
+var opponentRecordList = document.getElementById('opponent-record-list');
 
 //User Object Constructor --> index.html
 function UserObject(name, password) {
@@ -25,12 +26,15 @@ function UserObject(name, password) {
 //Handles Create User Event, includes validation of existing Users --> index.html
 function handleCreateUserEvent(event) {
   event.preventDefault();
+  if (!event.target.signUpName.value || !event.target.signUpPassword.value) {
+    return alert('Please enter a valid Username and Password.');
+  }
   var foundUserName = false;
-  var newName = event.target.signUpName.value.toString();
+  var newName = event.target.signUpName.value.toString().toUpperCase();
   var newPassword = event.target.signUpPassword.value.toString();
   if (allUsers.length > 0) {
     for (var i = 0; i < allUsers.length; i++) {
-      if (name === allUsers[i].userName) {
+      if (newName === allUsers[i].userName.toUpperCase()) {
         foundUserName = true;
       }
     }
@@ -53,11 +57,11 @@ function handleCreateUserEvent(event) {
 function handleValidateEvent(event) {
   event.preventDefault();
   var userExists = false;
-  var logInName = event.target.signInName.value.toString();
+  var logInName = event.target.signInName.value.toString().toUpperCase();
   var logInPassword = event.target.signInPassword.value.toString();
   if (allUsers.length > 0) {
     for (var i = 0; i < allUsers.length; i++) {
-      if (logInName === allUsers[i].userName && logInPassword === allUsers[i].password) {
+      if (logInName === allUsers[i].userName.toUpperCase() && logInPassword === allUsers[i].password) {
         userExists = true;
       }
     }
@@ -65,8 +69,12 @@ function handleValidateEvent(event) {
       //store new user into local storage
       localStorage.setItem('storedActiveUser', JSON.stringify(logInName));
       window.location = 'setup.html';
+    } else if (!userExists) {
+      console.log('I did not find an existing user');
+      alert('Incorrect username or password.  Please try again.');
     }
   } else {
+    console.log('I did not find an existing user');
     alert('Incorrect username or password.  Please try again.');
   }
   event.target.signInName.value = null;
@@ -105,10 +113,12 @@ if (localStorage.storedActiveUser) {
 //name passed as a parameter
 function findOpponentIndex(opponentNameValue) {
   var foundOpponent = false;
-  for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
-    if (allUsers[activeUserIndex].opponentsArray[i][0] == opponentNameValue) {
-      foundOpponent = true;
-      opponentIndex = i;
+  if (allUsers[activeUserIndex].opponentsArray.length > 0) {
+    for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
+      if (allUsers[activeUserIndex].opponentsArray[i][0] == opponentNameValue) {
+        foundOpponent = true;
+        opponentIndex = i;
+      }
     }
   }
   if (foundOpponent) {
@@ -116,7 +126,7 @@ function findOpponentIndex(opponentNameValue) {
     return opponentIndex;
   }
   if (!foundOpponent) {
-    return false;
+    return -1;
   }
 }
 //On page load, adds existing opponents in a specific User's opponentsArray into the select
@@ -134,9 +144,18 @@ if (opponentName) {
     }
   })();
 }
+//Generates and appends a textbox to opponentRecord div in setup.html --> setup.html
+function createTextBox() {
+  var inputEl = document.createElement('input');
+  inputEl.setAttribute('id', 'enter-new-opponent');
+  inputEl.setAttribute('type', 'text');
+  inputEl.setAttribute('name', 'enterNewOpponent');
+  inputEl.setAttribute('size', '15');
+  opponentRecord.appendChild(inputEl);
+}
+//Calculates and displays win, loss, percentage for active user --> setup.html
 if (homeRecord) {
   (function calculateAndDisplayWinPercentage() {
-
     var sumWin = 0;
     var sumLoss = 0;
     var winPercent = 0;
@@ -160,16 +179,8 @@ if (homeRecord) {
     homeRecord.appendChild(winPercentList);
   })();
 }
-//Generates and appends a textbox to opponentRecord div in setup.html --> setup.html
-function createTextBox() {
-  var inputEl = document.createElement('input');
-  inputEl.setAttribute('id', 'enter-new-opponent');
-  inputEl.setAttribute('type', 'text');
-  inputEl.setAttribute('name', 'enterNewOpponent');
-  inputEl.setAttribute('size', '15');
-  opponentRecord.appendChild(inputEl);
-}
-var opponentRecordList = document.getElementById('opponent-record-list');
+//Calculates and displays win, loss, percentage for selected opponent of active user
+//--> setup.html
 function calculateAndDisplayOpponentWinPercentage() {
   var sumWin = allUsers[activeUserIndex].opponentsArray[opponentIndex][1];
   // console.log(sumWin);
@@ -184,6 +195,9 @@ function calculateAndDisplayOpponentWinPercentage() {
   var winList = document.createElement('li');
   var lossList = document.createElement('li');
   var winPercentList = document.createElement('li');
+  winList.setAttribute('id', 'win-list');
+  lossList.setAttribute('id', 'loss-list');
+  winPercentList.setAttribute('id', 'win-percent-list');
   winList.textContent = ('Wins: ' + sumWin);
   lossList.textContent = ('Losses: ' + sumLoss);
   winPercentList.textContent = ('Win%: ' + winPercent);
@@ -197,13 +211,23 @@ function handleOpponentChangeEvent(event) {
   console.log(opponentName.value);
   findOpponentIndex(opponentName.value);
   console.log('this is the opponent index: ' + opponentIndex);
-  calculateAndDisplayOpponentWinPercentage();
   if (opponentName.value == 'new-opponent') {
     // console.log('There were previous opponents, but I want to make a new one');
+    var winList = document.getElementById('win-list');
+    var lossList = document.getElementById('loss-list');
+    var winPercentList = document.getElementById('win-percent-list');
+    if (winList || lossList || winPercentList) {
+      opponentRecordList.removeChild(winList);
+      opponentRecordList.removeChild(lossList);
+      opponentRecordList.removeChild(winPercentList);
+    }
     if (!document.getElementById('enter-new-opponent')) {
       createTextBox();
     }
   } else if (allUsers[activeUserIndex].opponentsArray[opponentIndex][0] == opponentName.value) {
+    if (!document.getElementById('win-list')) {
+      calculateAndDisplayOpponentWinPercentage();
+    }
     // console.log('I want to remove the text box');
     var enterNewOpponent = document.getElementById('enter-new-opponent');
     if (enterNewOpponent) {
@@ -223,19 +247,28 @@ function handleSetUpEvent(event) {
     }
   }
   if (document.getElementById('enter-new-opponent')) {
-    var newOpponent = event.target.enterNewOpponent.value.toString();
+    var newOpponent = event.target.enterNewOpponent.value.toString().toUpperCase();
     var currentUser = allUsers[activeUserIndex];
     // console.log(currentUser);
-    if (findOpponentIndex(newOpponent) == true) {
+    if (findOpponentIndex(newOpponent.toUpperCase()) > -1) {
       alert('Opponent name already exists, please enter a new name.');
     } else {
       console.log('I want to enter a new opponent');
       currentUser.opponentsArray.push([newOpponent, 0, 0]);
       localStorage.setItem('storedUsers', JSON.stringify(allUsers));
       localStorage.setItem('storedActiveOpponent', JSON.stringify(newOpponent));
+      window.location = 'scoreboard.html';
     }
   }
-  window.location = 'scoreboard.html';
+}
+
+if (document.getElementById('name-display-container')) {
+  (function displayNamesOnScoreboard() {
+    var homeTeam = document.getElementById('home-team');
+    var awayTeam = document.getElementById('away-team');
+    homeTeam.textContent = JSON.parse(localStorage.storedActiveUser);
+    awayTeam.textContent = JSON.parse(localStorage.storedActiveOpponent);
+  })();
 }
 //Finds existing users and setting h3 tage in setup.html to represent User Name
 //from local storage --> setup.html
