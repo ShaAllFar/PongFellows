@@ -18,11 +18,11 @@
     <div id="main-container">
       <form id="setup-form">
         <div id="content">
-          <div id="home-user">
+          <div class="user" id="home-user">
             <h3 id="home-name"></h3>
             <p id="home-record"></p>
           </div>
-          <div id="opponent">
+          <div class="user" id="opponent">
             <select id="opponent-name" name="select">
               <option value="no-opponent"> -- </option>
               <option value="new-opponent">New Opponent</option>
@@ -32,11 +32,13 @@
         </div>
         <div id="options">
           <h2 id="radio-name">Game Options</h2>
-          <input type="radio" name="end-score" value="11">11</input>
-          <input type="radio" name="end-score" value="15">15</input>
-          <input type="radio" name="end-score" value="21" checked>21</input>
+          <div class="radio">
+            <input type="radio" name="end-score" value="11">11</input>
+            <input type="radio" name="end-score" value="15">15</input>
+            <input type="radio" name="end-score" value="21" checked>21</input>
+          </div>
         </div>
-        <div id="button-container">
+        <div class="button" id="button-container">
           <button type="submit" name="Start" value="">Start Game</button>
         </div>
       </form>
