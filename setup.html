@@ -6,7 +6,7 @@
     <link href="nothomestyle.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <div id="nav-bar">
+    <div id="nav-bar" class="nav-bar">
       <img src="img/logo.png" />
       <ul>
         <li><a href="index.html">Home</a></li>
@@ -15,23 +15,23 @@
         <li><a href="about-us.html">About Us</a></li>
       </ul>
     </div>
-    <div id="main-container">
-      <form id="setup-form">
-        <div id="content">
-          <div class="user" id="home-user">
-            <h3 id="home-name"></h3>
-            <p id="home-record"></p>
+    <div id="main-container" class="main-container">
+      <form id="setup-form" class="setup-form">
+        <div id="content" class="content">
+          <div class="user home-user" id="home-user">
+            <h3 id="home-name" class="home-name"></h3>
+            <p id="home-record" class="home-record"></p>
           </div>
-          <div class="user" id="opponent">
-            <select id="opponent-name" name="select">
+          <div class="user opponent" id="opponent">
+            <select id="opponent-name" class="opponent-name"name="select">
               <option value="no-opponent"> -- </option>
               <option value="new-opponent">New Opponent</option>
-              <p id="opponent-record"></p>
+              <p id="opponent-record" class="opponent-record"></p>
             </select>
           </div>
         </div>
-        <div id="options">
-          <h2 id="radio-name">Game Options</h2>
+        <div id="options" class="options">
+          <h2 id="radio-name" class="radio-name">Game Options</h2>
           <div class="radio">
             <input type="radio" name="end-score" value="11">11</input>
             <input type="radio" name="end-score" value="15">15</input>
