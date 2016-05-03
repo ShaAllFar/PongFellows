@@ -9,14 +9,20 @@ var homeName = document.getElementById('home-name');
 var setUpForm = document.getElementById('setup-form');
 var opponentName = document.getElementById('opponent-name');
 var content = document.getElementById('content');
+var opponentRecord = document.getElementById('opponent');
+var radioScore = document.getElementById('radio-score');
+var endScore = document.getElementsByName('end-score');
+var homeRecord = document.getElementById('home-record');
 
-//User Object Constructor
+//User Object Constructor --> index.html
 function UserObject(name, password) {
   this.userName = name;
   this.password = password;
   this.opponentsArray = [];
+  this.wins = 0;
+  this.loss = 0;
 }
-//Handles Create User Event, includes validation of existing Users
+//Handles Create User Event, includes validation of existing Users --> index.html
 function handleCreateUserEvent(event) {
   event.preventDefault();
   var foundUserName = false;
@@ -43,7 +49,7 @@ function handleCreateUserEvent(event) {
   event.target.newUserName.value = null;
   event.target.newPassword.value = null;
 }
-//Handles User Login Event through Validation
+//Handles User Login Event through Validation --> index.html
 function handleValidateEvent(event) {
   event.preventDefault();
   var userExists = false;
@@ -93,21 +99,8 @@ function handleValidateEvent(event) {
     console.log('user does not exist');
   }
 })();
-
-if (opponentName) {
-  (function extendActiveOpponentsList() {
-    var currentUser = allUsers[activeUserIndex];
-    if (currentUser.opponentsArray.length > 0) {
-      for (var i = 0; i < currentUser.opponentsArray.length; i++) {
-        var optionEl = document.createElement('option');
-        optionEl.setAttribute('value', currentUser.opponentsArray[i][0]);
-        optionEl.textContent = currentUser.opponentsArray[i][0];
-        opponentName.appendChild(optionEl);
-      }
-    }
-  })();
-}
-
+//Finds an opponent's index inside an active user's opponentsArray with an opponent's
+//name passed as a parameter
 function findOpponentIndex(opponentNameValue) {
   var foundOpponent = false;
   for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
@@ -124,20 +117,85 @@ function findOpponentIndex(opponentNameValue) {
     return false;
   }
 }
-//Generates and appends a textbox to content div in setup.html
+//On page load, adds existing opponents in a specific User's opponentsArray into the select
+//drop down box using appendChild --> setup.html
+if (opponentName) {
+  (function extendActiveOpponentsList() {
+    var currentUser = allUsers[activeUserIndex];
+    if (currentUser.opponentsArray.length > 0) {
+      for (var i = 0; i < currentUser.opponentsArray.length; i++) {
+        var optionEl = document.createElement('option');
+        optionEl.setAttribute('value', currentUser.opponentsArray[i][0]);
+        optionEl.textContent = currentUser.opponentsArray[i][0];
+        opponentName.appendChild(optionEl);
+      }
+    }
+  })();
+}
+if (homeRecord) {
+  (function calculateAndDisplayWinPercentage() {
+
+    var sumWin = 0;
+    var sumLoss = 0;
+    var winPercent = 0;
+    for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
+      sumWin += allUsers[activeUserIndex].opponentsArray[i][1];
+      sumLoss += allUsers[activeUserIndex].opponentsArray[i][2];
+    }
+    if (sumLoss !== 0) {
+      winPercent = parseInt((sumWin / sumLoss) * 100);
+    } else {
+      winPercent = '';
+    }
+    var winList = document.createElement('li');
+    var lossList = document.createElement('li');
+    var winPercentList = document.createElement('li');
+    winList.textContent = ('Wins: ' + sumWin);
+    lossList.textContent = ('Losses: ' + sumLoss);
+    winPercentList.textContent = ('Win%: ' + winPercent);
+    homeRecord.appendChild(winList);
+    homeRecord.appendChild(lossList);
+    homeRecord.appendChild(winPercentList);
+  })();
+}
+//Generates and appends a textbox to opponentRecord div in setup.html --> setup.html
 function createTextBox() {
   var inputEl = document.createElement('input');
   inputEl.setAttribute('id', 'enter-new-opponent');
   inputEl.setAttribute('type', 'text');
   inputEl.setAttribute('name', 'enterNewOpponent');
   inputEl.setAttribute('size', '15');
-  content.appendChild(inputEl);
+  opponentRecord.appendChild(inputEl);
 }
-
+var opponentRecordList = document.getElementById('opponent-record-list');
+function calculateAndDisplayOpponentWinPercentage() {
+  var sumWin = allUsers[activeUserIndex].opponentsArray[opponentIndex][1];
+  // console.log(sumWin);
+  var sumLoss = allUsers[activeUserIndex].opponentsArray[opponentIndex][2];
+  // console.log(sumLoss);
+  var winPercent = 0;
+  if (sumLoss !== 0) {
+    winPercent = parseInt((sumWin / sumLoss) * 100);
+  } else {
+    winPercent = '';
+  }
+  var winList = document.createElement('li');
+  var lossList = document.createElement('li');
+  var winPercentList = document.createElement('li');
+  winList.textContent = ('Wins: ' + sumWin);
+  lossList.textContent = ('Losses: ' + sumLoss);
+  winPercentList.textContent = ('Win%: ' + winPercent);
+  opponentRecordList.appendChild(winList);
+  opponentRecordList.appendChild(lossList);
+  opponentRecordList.appendChild(winPercentList);
+}
+//Handles the change event on the select drop down box --> setup.html
 function handleOpponentChangeEvent(event) {
   event.preventDefault();
   console.log(opponentName.value);
   findOpponentIndex(opponentName.value);
+  console.log('this is the opponent index: ' + opponentIndex);
+  calculateAndDisplayOpponentWinPercentage();
   if (opponentName.value == 'new-opponent') {
     // console.log('There were previous opponents, but I want to make a new one');
     if (!document.getElementById('enter-new-opponent')) {
@@ -147,13 +205,21 @@ function handleOpponentChangeEvent(event) {
     // console.log('I want to remove the text box');
     var enterNewOpponent = document.getElementById('enter-new-opponent');
     if (enterNewOpponent) {
-      content.removeChild(enterNewOpponent);
+      opponentRecord.removeChild(enterNewOpponent);
     }
   }
 }
-
+//Handles the 'start game' submit button --> setup.html
 function handleSetUpEvent(event) {
   event.preventDefault();
+  console.log('I entered the submit event');
+  for (var i = 0; i < 3; i++) {
+    if (endScore[i].checked) {
+      var radioValue = endScore[i].value;
+      console.log('I found my score, it is ' + radioValue);
+      localStorage.setItem('storedGameScore', JSON.stringify(radioValue));
+    }
+  }
   if (document.getElementById('enter-new-opponent')) {
     var newOpponent = event.target.enterNewOpponent.value.toString();
     var currentUser = allUsers[activeUserIndex];
@@ -164,11 +230,13 @@ function handleSetUpEvent(event) {
       console.log('I want to enter a new opponent');
       currentUser.opponentsArray.push([newOpponent, 0, 0]);
       localStorage.setItem('storedUsers', JSON.stringify(allUsers));
+      localStorage.setItem('storedActiveOpponent', JSON.stringify(newOpponent));
     }
   }
   window.location = 'scoreboard.html';
 }
-//Finds existing users and setting h3 tage in setup.html to represent User Name from local storage
+//Finds existing users and setting h3 tage in setup.html to represent User Name
+//from local storage --> setup.html
 if (homeName) {
   homeName.textContent = JSON.parse(localStorage.storedActiveUser);
 }
