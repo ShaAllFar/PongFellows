@@ -1,4 +1,13 @@
+.increment{
+  border-radius: 100%;
+  /*width: 1px;
+  height: 1px;*/
+}
 
+.increment-pic{
+  width: 5em;
+  height: 5em;
+}
 
 .nav-bar{
   width: 100%;
