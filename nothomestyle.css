@@ -94,3 +94,76 @@ form{
   flex-direction: row;
   justify-content: center;
 }
+
+/*Scoreboard Page*/
+.main-container{
+  justify-content: center;
+  width: 100%;
+}
+.scoreboard-container{
+  width: 100%;
+}
+.name-display-container{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.name-display-container h1{
+  width: 40%;
+  text-align: center;
+}
+
+.main-scoreboard-container{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.home-team-container{
+  display: flex;
+  flex-flow: column wrap;
+  width: 30%;
+}
+.serve-container{
+  width: 30%;
+  text-align: center;
+}
+.current-serve{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+.current-home-serve{
+  border: 3px solid black;
+  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+  background-color: yellow;
+}
+.current-away-serve{
+  border: 3px solid black;
+  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+}
+.opponent-container{
+  display: flex;
+  flex-flow: column wrap;
+  width: 30%;
+}
+.button-container{
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.button-container button{
+
+  justify-content: space-around;;
+  width: 25%;
+  height: 40px;
+  margin: 0 auto;
+}

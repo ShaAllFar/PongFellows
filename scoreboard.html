@@ -2,10 +2,50 @@
 <html>
   <head>
     <title>Scoreboard</title>
-    <link href="style.css" rel="stylesheet" type="text/css"
+    <link href="nothomestyle.css" rel="stylesheet" type="text/css"
   </head>
   <body>
-    
+    <div id="nav-bar" class="nav-bar">
+      <img src="img/logo.png" />
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="setup.html">Settings</a></li>
+        <li><a href="results.html">Records</a></li>
+        <li><a href="about-us.html">About Us</a></li>
+      </ul>
+    </div>
+    <div id="main-container" class="main-container">
+      <div id="scoreboard-container" class="scoreboard-container">
+        <div id="name-display-container" class="name-display-container">
+          <h1 id="home-team">Home</h1>
+          <h1 id="away-team">Away</h1>
+        </div>
+        <div id="main-scoreboard-container" class="main-scoreboard-container">
+          <div id="home-team-container" class="home-team-container">
+            <img src="" alt="Increment">
+            <input type="text" >
+            <img src="" alt="deincrement">
+          </div>
+          <div id="serve-container" class="serve-container">
+            <h3 id="serve-tag" class="serve-tag">Serve</h3>
+            <div id="current-serve" class="current-serve">
+              <div id="current-home-serve" class="current-home-serve"></div>
+              <div id="current-away-serve" class="current-away-serve"></div>
+            </div>
+          </div>
+          <div id="opponent-container" class="opponent-container">
+            <img src="" alt="Increment">
+            <input type="text" >
+            <img src="" alt="deincrement">
+          </div>
+        </div>
+      </div>
+      <div id="button-container" class="button-container">
+        <button id="rematch-button" class="rematch-button" type="button">Rematch</button>
+        <button id="new-opponent-button" class="new-opponent-button" type="button">New Opponent</button>
+        <button id="records-button" class="records-button" type="button">Records</button>
+      </div>
+    </div>
     <script src="app.js"></script>
   </body>
 </html>
