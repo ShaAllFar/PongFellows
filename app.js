@@ -22,6 +22,60 @@ function UserObject(name, password) {
   this.wins = 0;
   this.loss = 0;
 }
+
+UserObject.prototype.percentageWins = function(){
+  // var sumWin = 0;
+  // var sumLoss = 0;
+  var winPercent = 0;
+  // for (var i = 0; i < this.opponentsArray.length; i++) {
+  //   sumWin += this.opponentsArray[i][1];
+  //   sumLoss += this.opponentsArray[i][2];
+  // }
+  // if (sumLoss !== 0) {
+  //   winPercent = parseInt((sumWin / sumLoss) * 100);
+  // } else {
+  //   winPercent = '';
+  // }
+  winPercent = parseInt((this.wins / (this.loss + this.wins)) * 100);
+  return winPercent;
+};
+
+var Shawn = new UserObject('Shawn', 'password');
+
+var opponent1 = ['Jon', 2, 3];
+var opponent2 = ['Sam', 5, 3];
+var opponent3 = ['Katie', 7, 0];
+Shawn.opponentsArray.push(opponent1);
+Shawn.opponentsArray.push(opponent2);
+Shawn.opponentsArray.push(opponent3);
+var Sean = new UserObject('Sean', 'password');
+Sean.wins = 2;
+Sean.loss = 2;
+var Sung = new UserObject('Sung', 'password');
+Sung.wins = 10;
+Sung.loss = 15;
+var Kyle = new UserObject('Kyle', 'password');
+Kyle.wins = 20;
+Kyle.loss = 1;
+var Fancy = new UserObject('Fancy', 'password');
+Fancy.wins = 5;
+Fancy.loss = 9;
+allUsers.push(Shawn);
+allUsers.push(Sean);
+allUsers.push(Sung);
+allUsers.push(Kyle);
+allUsers.push(Fancy);
+
+Shawn.wins = sumTotals(2);
+Shawn.loss = sumTotals(1);
+
+function sumTotals (type) {
+  var sumTotals = 0;
+  for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
+    sumTotals += allUsers[activeUserIndex].opponentsArray[i][type];
+  } return sumTotals;
+}
+
 //Handles Create User Event, includes validation of existing Users --> index.html
 function handleCreateUserEvent(event) {
   event.preventDefault();
@@ -137,18 +191,7 @@ if (opponentName) {
 if (homeRecord) {
   (function calculateAndDisplayWinPercentage() {
 
-    var sumWin = 0;
-    var sumLoss = 0;
-    var winPercent = 0;
-    for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
-      sumWin += allUsers[activeUserIndex].opponentsArray[i][1];
-      sumLoss += allUsers[activeUserIndex].opponentsArray[i][2];
-    }
-    if (sumLoss !== 0) {
-      winPercent = parseInt((sumWin / sumLoss) * 100);
-    } else {
-      winPercent = '';
-    }
+    percentageWins();
     var winList = document.createElement('li');
     var lossList = document.createElement('li');
     var winPercentList = document.createElement('li');
@@ -267,3 +310,83 @@ if (opponentName) { //This event will create a textbox with one or no options in
     }
   });
 }
+
+(function renderTable() {
+  table = document.createElement('table');
+  table.id = 'table';
+  var trElOne = document.createElement('tr');
+  var thElOne = document.createElement('th');
+  var trElFour = document.createElement('tr');
+  var tdElOne = document.createElement('td');
+  var tdElTwo = document.createElement('td');
+  var tdElThree = document.createElement('td');
+  var tdElFour = document.createElement('td');
+  tdElOne.textContent = allUsers[activeUserIndex].percentageWins();
+  tdElTwo.textContent = allUsers[activeUserIndex].userName;
+  tdElThree.textContent = allUsers[activeUserIndex].wins;
+  tdElFour.textContent = allUsers[activeUserIndex].loss;
+  trElOne.appendChild(thElOne);
+  trElFour.appendChild(tdElOne);
+  trElFour.appendChild(tdElTwo);
+  trElFour.appendChild(tdElThree);
+  trElFour.appendChild(tdElFour);
+    // trElTwo.appendChild(thElTwo);
+
+  var thElThree = document.createElement('th');
+  var thElFive = document.createElement('th');
+  var thElSix = document.createElement('th');
+  thElOne.textContent = 'User Name';
+  thElThree.textContent = 'Total Wins';
+  thElFive.textContent = 'Total Losses';
+  thElSix.textContent = 'Percentage';
+  trElOne.appendChild(thElThree);
+  trElOne.appendChild(thElFive);
+  trElOne.appendChild(thElSix);
+  trElFour.appendChild(tdElOne);
+  table.appendChild(trElOne);
+  table.appendChild(trElFour);
+  document.getElementById('overall-record').appendChild(table);
+})();
+
+function opponentsArrayFunction(index) {
+  var winPercent = 0;
+  winPercent = parseInt((allUsers[activeUserIndex].opponentsArray[index][1] / (allUsers[activeUserIndex].opponentsArray[index][1] + allUsers[activeUserIndex].opponentsArray[index][2])) * 100);
+  return winPercent;
+};
+
+(function renderTotalPlaysTable() {
+  tableTotalPlays = document.createElement('table');
+  tableTotalPlays.id = 'table-total-plays';
+  var totalTrOne = document.createElement('tr');
+  var totalThOne = document.createElement('th');
+  var totalThTwo = document.createElement('th');
+  var totalThThree = document.createElement('th');
+  var totalThFour = document.createElement('th');
+  totalThOne.textContent = 'Opponent Name';
+  totalThTwo.textContent = 'Total Wins';
+  totalThThree.textContent = 'Total Loss';
+  totalThFour.textContent = 'Percentage';
+  totalTrOne.appendChild(totalThOne);
+  totalTrOne.appendChild(totalThTwo);
+  totalTrOne.appendChild(totalThThree);
+  totalTrOne.appendChild(totalThFour);
+  tableTotalPlays.appendChild(totalTrOne);
+  document.getElementById('list-record').appendChild(tableTotalPlays);
+
+  for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
+    var totalTrTwo = document.createElement('tr');
+    var totalTdOne = document.createElement('td');
+    var totalTdTwo = document.createElement('td');
+    var totalTdThree = document.createElement('td');
+    var totalTdFour = document.createElement('td');
+    totalTdOne.textContent = allUsers[activeUserIndex].opponentsArray[i][0];
+    totalTdTwo.textContent = allUsers[activeUserIndex].opponentsArray[i][1];
+    totalTdThree.textContent = allUsers[activeUserIndex].opponentsArray[i][2];
+    totalTdFour.textContent = opponentsArrayFunction(i);
+    totalTrTwo.appendChild(totalTdOne);
+    totalTrTwo.appendChild(totalTdTwo);
+    totalTrTwo.appendChild(totalTdThree);
+    totalTrTwo.appendChild(totalTdFour);
+    tableTotalPlays.appendChild(totalTrTwo);
+  }
+})();
