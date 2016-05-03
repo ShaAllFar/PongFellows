@@ -10,12 +10,17 @@ var setUpForm = document.getElementById('setup-form');
 var opponentName = document.getElementById('opponent-name');
 var content = document.getElementById('content');
 var opponentRecord = document.getElementById('opponent');
+var radioScore = document.getElementById('radio-score');
+var endScore = document.getElementsByName('end-score');
+var homeRecord = document.getElementById('home-record');
 
 //User Object Constructor --> index.html
 function UserObject(name, password) {
   this.userName = name;
   this.password = password;
   this.opponentsArray = [];
+  this.wins = 0;
+  this.loss = 0;
 }
 //Handles Create User Event, includes validation of existing Users --> index.html
 function handleCreateUserEvent(event) {
@@ -127,6 +132,32 @@ if (opponentName) {
     }
   })();
 }
+if (homeRecord) {
+  (function calculateAndDisplayWinPercentage() {
+
+    var sumWin = 0;
+    var sumLoss = 0;
+    var winPercent = 0;
+    for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
+      sumWin += allUsers[activeUserIndex].opponentsArray[i][1];
+      sumLoss += allUsers[activeUserIndex].opponentsArray[i][2];
+    }
+    if (sumLoss !== 0) {
+      winPercent = parseInt((sumWin / sumLoss) * 100);
+    } else {
+      winPercent = '';
+    }
+    var winList = document.createElement('li');
+    var lossList = document.createElement('li');
+    var winPercentList = document.createElement('li');
+    winList.textContent = ('Wins: ' + sumWin);
+    lossList.textContent = ('Losses: ' + sumLoss);
+    winPercentList.textContent = ('Win%: ' + winPercent);
+    homeRecord.appendChild(winList);
+    homeRecord.appendChild(lossList);
+    homeRecord.appendChild(winPercentList);
+  })();
+}
 //Generates and appends a textbox to opponentRecord div in setup.html --> setup.html
 function createTextBox() {
   var inputEl = document.createElement('input');
@@ -136,11 +167,35 @@ function createTextBox() {
   inputEl.setAttribute('size', '15');
   opponentRecord.appendChild(inputEl);
 }
+var opponentRecordList = document.getElementById('opponent-record-list');
+function calculateAndDisplayOpponentWinPercentage() {
+  var sumWin = allUsers[activeUserIndex].opponentsArray[opponentIndex][1];
+  // console.log(sumWin);
+  var sumLoss = allUsers[activeUserIndex].opponentsArray[opponentIndex][2];
+  // console.log(sumLoss);
+  var winPercent = 0;
+  if (sumLoss !== 0) {
+    winPercent = parseInt((sumWin / sumLoss) * 100);
+  } else {
+    winPercent = '';
+  }
+  var winList = document.createElement('li');
+  var lossList = document.createElement('li');
+  var winPercentList = document.createElement('li');
+  winList.textContent = ('Wins: ' + sumWin);
+  lossList.textContent = ('Losses: ' + sumLoss);
+  winPercentList.textContent = ('Win%: ' + winPercent);
+  opponentRecordList.appendChild(winList);
+  opponentRecordList.appendChild(lossList);
+  opponentRecordList.appendChild(winPercentList);
+}
 //Handles the change event on the select drop down box --> setup.html
 function handleOpponentChangeEvent(event) {
   event.preventDefault();
   console.log(opponentName.value);
   findOpponentIndex(opponentName.value);
+  console.log('this is the opponent index: ' + opponentIndex);
+  calculateAndDisplayOpponentWinPercentage();
   if (opponentName.value == 'new-opponent') {
     // console.log('There were previous opponents, but I want to make a new one');
     if (!document.getElementById('enter-new-opponent')) {
@@ -157,6 +212,14 @@ function handleOpponentChangeEvent(event) {
 //Handles the 'start game' submit button --> setup.html
 function handleSetUpEvent(event) {
   event.preventDefault();
+  console.log('I entered the submit event');
+  for (var i = 0; i < 3; i++) {
+    if (endScore[i].checked) {
+      var radioValue = endScore[i].value;
+      console.log('I found my score, it is ' + radioValue);
+      localStorage.setItem('storedGameScore', JSON.stringify(radioValue));
+    }
+  }
   if (document.getElementById('enter-new-opponent')) {
     var newOpponent = event.target.enterNewOpponent.value.toString();
     var currentUser = allUsers[activeUserIndex];
