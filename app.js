@@ -22,6 +22,7 @@ function UserObject(name, password) {
   this.opponentsArray = [];
   this.wins = 0;
   this.loss = 0;
+  this.percentage = 0;
 }
 
 // UserObject.prototype.percentageWins = function(){
@@ -76,6 +77,21 @@ function UserObject(name, password) {
 //     sumTotals += allUsers[activeUserIndex].opponentsArray[i][type];
 //   } return sumTotals;
 // }
+
+function userTotalWinsAndLosses() {
+  var totalWins = 0;
+  var totalLoss = 0;
+  for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
+    totalWins += allUsers[activeUserIndex].opponentsArray[i][2];
+    totalLoss += allUsers[activeUserIndex].opponentsArray[i][1];
+  }
+  allUsers[activeUserIndex].wins = totalWins;
+  allUsers[activeUserIndex].loss = totalLoss;
+}
+
+function userPercentageWins() {
+  allUsers[activeUserIndex].percentage = parseInt((allUsers[activeUserIndex].wins) / (allUsers[activeUserIndex].loss + allUsers[activeUserIndex].wins) * 100);
+}
 
 //Handles Create User Event, includes validation of existing Users --> index.html
 function handleCreateUserEvent(event) {
@@ -210,26 +226,14 @@ function createTextBox() {
 //Calculates and displays win, loss, percentage for active user --> setup.html
 if (homeRecord) {
   (function calculateAndDisplayWinPercentage() {
-    var sumWin = 0;
-    var sumLoss = 0;
-    var winPercent = 0;
-    for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
-      sumWin += this.opponentsArray[i][1];
-      sumLoss += this.opponentsArray[i][2];
-    }
-    if (sumLoss !== 0) {
-      winPercent = parseInt((sumWin / sumLoss) * 100);
-    } else {
-      winPercent = '';
-    }
-    //winPercent = parseInt((this.wins / (this.loss + this.wins)) * 100);
-    //return winPercent;
+    userTotalWinsAndLosses();
+    userPercentageWins();
     var winList = document.createElement('li');
     var lossList = document.createElement('li');
     var winPercentList = document.createElement('li');
-    winList.textContent = ('Wins: ' + sumWin);
-    lossList.textContent = ('Losses: ' + sumLoss);
-    winPercentList.textContent = ('Win%: ' + winPercent);
+    winList.textContent = ('Wins: ' + allUsers[activeUserIndex].wins);
+    lossList.textContent = ('Losses: ' + allUsers[activeUserIndex].loss);
+    winPercentList.textContent = ('Win%: ' + allUsers[activeUserIndex].percentage);
     homeRecord.appendChild(winList);
     homeRecord.appendChild(lossList);
     homeRecord.appendChild(winPercentList);
@@ -357,87 +361,6 @@ if (opponentName) { //This event will create a textbox with one or no options in
   });
 }
 
-// (function renderTable() {
-//   table = document.createElement('table');
-//   table.id = 'table';
-//   var trElOne = document.createElement('tr');
-//   var thElOne = document.createElement('th');
-//   var trElFour = document.createElement('tr');
-//   var tdElOne = document.createElement('td');
-//   var tdElTwo = document.createElement('td');
-//   var tdElThree = document.createElement('td');
-//   var tdElFour = document.createElement('td');
-//   tdElOne.textContent = allUsers[activeUserIndex].percentageWins();
-//   tdElTwo.textContent = allUsers[activeUserIndex].userName;
-//   tdElThree.textContent = allUsers[activeUserIndex].wins;
-//   tdElFour.textContent = allUsers[activeUserIndex].loss;
-//   trElOne.appendChild(thElOne);
-//   trElFour.appendChild(tdElOne);
-//   trElFour.appendChild(tdElTwo);
-//   trElFour.appendChild(tdElThree);
-//   trElFour.appendChild(tdElFour);
-//     // trElTwo.appendChild(thElTwo);
-//
-//   var thElThree = document.createElement('th');
-//   var thElFive = document.createElement('th');
-//   var thElSix = document.createElement('th');
-//   thElOne.textContent = 'User Name';
-//   thElThree.textContent = 'Total Wins';
-//   thElFive.textContent = 'Total Losses';
-//   thElSix.textContent = 'Percentage';
-//   trElOne.appendChild(thElThree);
-//   trElOne.appendChild(thElFive);
-//   trElOne.appendChild(thElSix);
-//   trElFour.appendChild(tdElOne);
-//   table.appendChild(trElOne);
-//   table.appendChild(trElFour);
-//   document.getElementById('overall-record').appendChild(table);
-// })();
-
-// function opponentsArrayFunction(index) {
-//   var winPercent = 0;
-//   winPercent = parseInt((allUsers[activeUserIndex].opponentsArray[index][1] / (allUsers[activeUserIndex].opponentsArray[index][1] + allUsers[activeUserIndex].opponentsArray[index][2])) * 100);
-//   return winPercent;
-// };
-
-// (function renderTotalPlaysTable() {
-//   tableTotalPlays = document.createElement('table');
-//   tableTotalPlays.id = 'table-total-plays';
-//   var totalTrOne = document.createElement('tr');
-//   var totalThOne = document.createElement('th');
-//   var totalThTwo = document.createElement('th');
-//   var totalThThree = document.createElement('th');
-//   var totalThFour = document.createElement('th');
-//   totalThOne.textContent = 'Opponent Name';
-//   totalThTwo.textContent = 'Total Wins';
-//   totalThThree.textContent = 'Total Loss';
-//   totalThFour.textContent = 'Percentage';
-//   totalTrOne.appendChild(totalThOne);
-//   totalTrOne.appendChild(totalThTwo);
-//   totalTrOne.appendChild(totalThThree);
-//   totalTrOne.appendChild(totalThFour);
-//   tableTotalPlays.appendChild(totalTrOne);
-//   document.getElementById('list-record').appendChild(tableTotalPlays);
-//
-//   for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
-//     var totalTrTwo = document.createElement('tr');
-//     var totalTdOne = document.createElement('td');
-//     var totalTdTwo = document.createElement('td');
-//     var totalTdThree = document.createElement('td');
-//     var totalTdFour = document.createElement('td');
-//     totalTdOne.textContent = allUsers[activeUserIndex].opponentsArray[i][0];
-//     totalTdTwo.textContent = allUsers[activeUserIndex].opponentsArray[i][1];
-//     totalTdThree.textContent = allUsers[activeUserIndex].opponentsArray[i][2];
-//     totalTdFour.textContent = opponentsArrayFunction(i);
-//     totalTrTwo.appendChild(totalTdOne);
-//     totalTrTwo.appendChild(totalTdTwo);
-//     totalTrTwo.appendChild(totalTdThree);
-//     totalTrTwo.appendChild(totalTdFour);
-//     tableTotalPlays.appendChild(totalTrTwo);
-//   }
-// })();
-
-//Scoreboard.html js
 function pad2(number) {
   return (number < 10 ? '0' : '') + number;
 }
@@ -449,15 +372,27 @@ var homeScore = document.getElementById('home-score');
 var awayScore = document.getElementById('away-score');
 var globalHomeScore = pad2(0);
 var globalAwayScore = pad2(0);
-var buttonContainer = document.getElementById('button-container');
-var endGameScore = parseInt(JSON.parse(localStorage.storedGameScore));
+var scoreboardButtonContainer = document.getElementById('scoreboard-button-container');
 
-homeUp.addEventListener('click', homePowerUp);
-homeDown.addEventListener('click', homePowerDown);
-awayUp.addEventListener('click', awayPowerUp);
-awayDown.addEventListener('click', awayPowerDown);
-buttonContainer.style.visibility = 'hidden';
-
+if (document.getElementById('main-scoreboard-container')) {
+  var endGameScore = parseInt(JSON.parse(localStorage.storedGameScore));
+}
+if (homeUp) {
+  homeUp.addEventListener('click', homePowerUp);
+}
+if (homeDown) {
+  homeDown.addEventListener('click', homePowerDown);
+}
+if (awayUp) {
+  awayUp.addEventListener('click', awayPowerUp);
+}
+if (awayDown) {
+  awayDown.addEventListener('click', awayPowerDown);
+}
+if (scoreboardButtonContainer) {
+  scoreboardButtonContainer.style.visibility = 'hidden';
+}
+//Score incrementor event callback function for current active user. Stops game when appropriate score value is achieved --> scoreboard.html
 function homePowerUp(event){
   globalHomeScore++;
   homeScore.textContent = pad2(globalHomeScore);
@@ -468,14 +403,13 @@ function homePowerUp(event){
       homeDown.removeEventListener('click', homePowerDown);
       awayUp.removeEventListener('click', awayPowerUp);
       awayDown.removeEventListener('click', awayPowerDown);
-      buttonContainer.style.visibility = 'visible';
+      scoreboardButtonContainer.style.visibility = 'visible';
     }else{
       endGameScore++;
       console.log(endGameScore + 'this should go up by 1');
     }
   }
-};
-
+}
 function homePowerDown(event){
   globalHomeScore--;
   if (globalHomeScore < 1) {
@@ -483,24 +417,26 @@ function homePowerDown(event){
   }
   homeScore.textContent = pad2(globalHomeScore);
 }
+//Score incrementor event callback function for current active opponent. Stops game when appropriate score value is achieved --> scoreboard.html
 function awayPowerUp(event){
   globalAwayScore++;
   awayScore.textContent = pad2(globalAwayScore);
-
   if (endGameScore == globalAwayScore){
     if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
       console.log('away fucking won');
+      // allUsers[activeUserIndex].opponentsArray[opponentIndex][1] + 1;
+      // console.log('Opponent score for wins should have gone up, it is: ' + allUsers[activeUserIndex].opponentsArray[opponentIndex][1]);
       homeUp.removeEventListener('click', homePowerUp);
       homeDown.removeEventListener('click', homePowerDown);
       awayUp.removeEventListener('click', awayPowerUp);
       awayDown.removeEventListener('click', awayPowerDown);
-      buttonContainer.style.visibility = 'visible';
+      scoreboardButtonContainer.style.visibility = 'visible';
     }else{
       endGameScore++;
       console.log(endGameScore + 'this should go up by 1');
     }
   }
-};
+}
 
 function awayPowerDown(event){
   globalAwayScore--;
@@ -509,3 +445,82 @@ function awayPowerDown(event){
   }
   awayScore.textContent = pad2(globalAwayScore);
 };
+
+//Results.html JS
+var userResults = document.getElementById('user-results');
+// var opponentResults = document.getElementById('opponent-results');
+var listResults = document.getElementById('list-record');
+//Renders table on page load for current active user --> results.html
+if (userResults) {
+  (function renderUserData() {
+    userTotalWinsAndLosses();
+    userPercentageWins();
+    var trEl1 = document.createElement('tr');
+    userResults.appendChild(trEl1);
+    var thEl1 = document.createElement('th');
+    thEl1.textContent = '';
+    var thEl2 = document.createElement('th');
+    thEl2.textContent = 'Wins';
+    var thEl3 = document.createElement('th');
+    thEl3.textContent = 'Losses';
+    var thEl4 = document.createElement('th');
+    thEl4.textContent = 'Win Percentage';
+    trEl1.appendChild(thEl1);
+    trEl1.appendChild(thEl2);
+    trEl1.appendChild(thEl3);
+    trEl1.appendChild(thEl4);
+    var trEl2 = document.createElement('tr');
+    userResults.appendChild(trEl2);
+    var tdEl1 = document.createElement('td');
+    tdEl1.textContent = allUsers[activeUserIndex].userName;
+    var tdEl2 = document.createElement('td');
+    tdEl2.textContent = allUsers[activeUserIndex].wins;
+    var tdEl3 = document.createElement('td');
+    tdEl3.textContent = allUsers[activeUserIndex].loss;
+    var tdEl4 = document.createElement('td');
+    tdEl4.textContent = allUsers[activeUserIndex].percentage;
+    trEl2.appendChild(tdEl1);
+    trEl2.appendChild(tdEl2);
+    trEl2.appendChild(tdEl3);
+    trEl2.appendChild(tdEl4);
+  })();
+}
+//Renders table on page load for all opponents of current active user --> results.html
+if (listResults) {
+  (function renderOpponentData() {
+    var mainTable = document.createElement('table');
+    listResults.appendChild(mainTable);
+    var mainTrEl = document.createElement('tr');
+    mainTable.appendChild(mainTrEl);
+    var thEl1 = document.createElement('th');
+    thEl1.textContent = '';
+    var thEl2 = document.createElement('th');
+    thEl2.textContent = 'Wins';
+    var thEl3 = document.createElement('th');
+    thEl3.textContent = 'Losses';
+    var thEl4 = document.createElement('th');
+    thEl4.textContent = 'Win Percentage';
+    mainTrEl.appendChild(thEl1);
+    mainTrEl.appendChild(thEl2);
+    mainTrEl.appendChild(thEl3);
+    mainTrEl.appendChild(thEl4);
+    for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
+      var trEl = document.createElement('tr');
+      var tdEl1 = document.createElement('td');
+      var tdEl2 = document.createElement('td');
+      var tdEl3 = document.createElement('td');
+      var tdEl4 = document.createElement('td');
+      tdEl1.textContent = allUsers[activeUserIndex].opponentsArray[i][0];
+      tdEl2.textContent = allUsers[activeUserIndex].opponentsArray[i][1];
+      tdEl3.textContent = allUsers[activeUserIndex].opponentsArray[i][2];
+      tdEl4.textContent = calculateOpponentPercentage(i);
+      mainTable.appendChild(trEl);
+      trEl.appendChild(tdEl1);
+      trEl.appendChild(tdEl2);
+      trEl.appendChild(tdEl3);
+      trEl.appendChild(tdEl4);
+      var hrEl = document.createElement('hr');
+      mainTable.appendChild(hrEl);
+    }
+  })();
+}
