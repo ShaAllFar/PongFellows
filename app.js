@@ -530,3 +530,23 @@ if (listResults) {
     }
   })();
 }
+
+var newOpponentButton = document.getElementById('new-opponent-button');
+var rematchButton = document.getElementById('rematch-button');
+var resultsButton = document.getElementById('records-button');
+
+// newOpponentButton.addEventListener('click', newOpponentSetup);
+// rematchButton.addEventListener('click', rematchSetup);
+// resultsButton.addEventListener('click', resultsSetup);
+
+function newOpponentSetup() {
+  window.location.href = 'setup.html';
+}
+
+function rematchSetup() {
+  window.location.href = 'scoreboard.html';
+}
+
+function resultsSetup() {
+  window.location.href = 'results.html';
+}
