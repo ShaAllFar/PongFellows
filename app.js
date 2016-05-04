@@ -260,6 +260,8 @@ function handleOpponentChangeEvent(event) {
   event.preventDefault();
   console.log(opponentName.value);
   findOpponentIndex(opponentName.value);
+  localStorage.setItem('storedActiveOpponent', JSON.stringify(opponentName.value));
+  localStorage.setItem('storedOpponentIndex', JSON.stringify(opponentIndex));
   console.log('this is the opponent index: ' + opponentIndex);
   var winList = document.getElementById('win-list');
   var lossList = document.getElementById('loss-list');
@@ -597,8 +599,11 @@ if (userResults) {
 //Renders table on page load for all opponents of current active user --> results.html
 if (listResults) {
   (function renderOpponentData() {
+    var formContainer = document.createElement('form');
+    formContainer.setAttribute('id', 'opponent-data-container');
+    listResults.appendChild(formContainer);
     var mainTable = document.createElement('table');
-    listResults.appendChild(mainTable);
+    formContainer.appendChild(mainTable);
     var mainTrEl = document.createElement('tr');
     mainTable.appendChild(mainTrEl);
     var thEl1 = document.createElement('th');
@@ -613,8 +618,10 @@ if (listResults) {
     mainTrEl.appendChild(thEl2);
     mainTrEl.appendChild(thEl3);
     mainTrEl.appendChild(thEl4);
+
     for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
       var trEl = document.createElement('tr');
+      trEl.setAttribute('id', 'opponent' + i);
       var tdEl1 = document.createElement('td');
       var tdEl2 = document.createElement('td');
       var tdEl3 = document.createElement('td');
@@ -628,12 +635,24 @@ if (listResults) {
       trEl.appendChild(tdEl2);
       trEl.appendChild(tdEl3);
       trEl.appendChild(tdEl4);
+      var removeButton = document.createElement('button');
+      removeButton.setAttribute('class', 'remove-opponent');
+      removeButton.setAttribute('type', 'submit');
+      removeButton.textContent = 'Delete Opponent';
+      trEl.appendChild(removeButton);
       var hrEl = document.createElement('hr');
       mainTable.appendChild(hrEl);
     }
   })();
 }
 
+if (opponentFormContainer) {
+  var opponentFormContainer = document.getElementById('opponent-data-container');
+  opponentFormContainer.addEventListener('submit', handleDeleteOpponent);
+}
+function handleDeleteOpponent(event) {
+
+}
 var newOpponentButton = document.getElementById('new-opponent-button');
 var rematchButton = document.getElementById('rematch-button');
 var resultsButton = document.getElementById('records-button');
