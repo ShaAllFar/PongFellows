@@ -75,7 +75,7 @@ allUsers.push(Sung);
 function handleCreateUserEvent(event) {
   event.preventDefault();
   if (!event.target.signUpName.value || !event.target.signUpPassword.value) {
-    return alert('Please enter a valid Username and Password.');
+    return alertify.alert('Please enter a valid Username and Password.');
   }
   var foundUserName = false;
   var newName = event.target.signUpName.value.toString().toUpperCase();
@@ -88,7 +88,7 @@ function handleCreateUserEvent(event) {
     }
   }
   if (foundUserName) {
-    alert('Sorry!  This username already exists.  Please try again.');
+    alertify.alert('Sorry!  This username already exists.  Please try again.');
   }
   if (!foundUserName) {
     //store new user into local storage
@@ -120,11 +120,11 @@ function handleValidateEvent(event) {
       window.location = 'setup.html';
     } else if (!userExists) {
       console.log('I did not find an existing user');
-      alert('Incorrect username or password.  Please try again.');
+      alertify.alert('Incorrect username or password.  Please try again.');
     }
   } else {
     console.log('I did not find an existing user');
-    alert('Incorrect username or password.  Please try again.');
+    alertify.alert('Incorrect username or password.  Please try again.');
   }
   event.target.signInName.value = null;
   event.target.signInPassword.value = null;
@@ -304,14 +304,14 @@ function handleSetUpEvent(event) {
     }
   }
   if (opponentName.value == 'no-opponent') {
-    alert('Please select an opponent.');
+    alertify.alert('Please select an opponent.');
   }
   if (document.getElementById('enter-new-opponent')) {
     var newOpponent = event.target.enterNewOpponent.value.toString().toUpperCase();
     var currentUser = allUsers[activeUserIndex];
     // console.log(currentUser);
     if (findOpponentIndex(newOpponent.toUpperCase()) > -1) {
-      alert('Opponent name already exists, please enter a new name.');
+      alertify.alert('Opponent name already exists, please enter a new name.');
     } else {
       console.log('I want to enter a new opponent');
       currentUser.opponentsArray.push([newOpponent, 0, 0]);
@@ -414,7 +414,7 @@ function homePowerUp(event){
   }
   if (endGameScore == globalHomeScore){
     if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
-      alert(allUsers[activeUserIndex].userName + ' WINS!!!');
+      alertify.alert(allUsers[activeUserIndex].userName + ' WINS!!!');
       homeUp.removeEventListener('click', homePowerUp);
       homeDown.removeEventListener('click', homePowerDown);
       awayUp.removeEventListener('click', awayPowerUp);
@@ -460,7 +460,7 @@ function awayPowerUp(event){
       console.log('away fucking won');
       // allUsers[activeUserIndex].opponentsArray[opponentIndex][1] + 1;
       // console.log('Opponent score for wins should have gone up, it is: ' + allUsers[activeUserIndex].opponentsArray[opponentIndex][1]);
-      alert(JSON.parse(localStorage.storedActiveOpponent) + ' WINS!!!');
+      alertify.alert(JSON.parse(localStorage.storedActiveOpponent) + ' WINS!!!');
       homeUp.removeEventListener('click', homePowerUp);
       homeDown.removeEventListener('click', homePowerDown);
       awayUp.removeEventListener('click', awayPowerUp);
@@ -500,10 +500,10 @@ if (document.getElementById('serve-container')) {
     var decision = Math.floor(Math.random() * (2)) + 1;
     if (decision === 1) {
       homeServeLight.setAttribute('class', 'current-player-serve');
-      alert(allUsers[activeUserIndex].userName + ' serves first!!!');
+      alertify.alert(allUsers[activeUserIndex].userName + ' serves first!!!');
     } else if (decision === 2) {
       awayServeLight.setAttribute('class', 'current-player-serve');
-      alert(JSON.parse(localStorage.storedActiveOpponent) + ' serves first!!!');
+      alertify.alert(JSON.parse(localStorage.storedActiveOpponent) + ' serves first!!!');
     }
   })();
 }

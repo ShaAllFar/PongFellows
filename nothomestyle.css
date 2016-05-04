@@ -1,3 +1,9 @@
+body{
+  margin: 0 auto;
+
+
+font-family: 'News Cycle', sans-serif;
+}
 .increment{
   border-radius: 100%;
   /*width: 1px;
@@ -17,34 +23,58 @@
   flex-direction: row;
   justify-content: space-between;
   font-family: 'Montserrat', sans-serif;
+  color: white;
 }
+.logo-placeholder{
+  width: 50px;
+  height: 55px;
+  background-color: red;
+  margin: 10px;
+  margin-left: 50px;
+  margin-right: 5px;
 
-.nav-bar img{
-  height:75px;
 }
-
+.logo-container{
+  display: flex;
+  flex-flow: row wrap;
+  width: 300px;
+}
+.logo-container h1{
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  font-size: 1.5em;
+  margin: 0px;
+}
+.logo-text{
+  display: flex;
+  flex-direction: column;
+  width: 80px;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0px;
+}
 ul{
   list-style-type: none;
-  width: 40%;
+  width: 60%;
   display: flex;
-  flex-direction: row;
+  flex-direction: row wrap;
   justify-content: space-around;
-  font-size: 1.5em;
+  align-items: center;
+  font-size: 1em;
+  margin-right: 50px;
 }
 
 a{
   text-decoration: none;
-  color: red;
+  color: white;
 }
 
 a:hover{
-  background: white;
-  color: black;
+  color: yellow;
 }
 /*need to change this:*/
-a:active{
-  background: red;
-  color: black;
+#current{
+  color: red;
 }
 form{
   width: 100%;
@@ -62,32 +92,57 @@ form{
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  justify-content:space-around;
-}
-.user{
-  background-color: black;
+  justify-content:center;
+  color: black;
 }
 
 .home-user{
+  display: flex;
+  flex-direction: column;
   width: 40%;
-  border-style: groove;
-  border-width: thick;
-  border-color: red;
+  justify-content: center;
+  align-items: center;
+}
+.home-name{
+  font-family: 'Montserrat', sans-serif;
+  color: black;
+  font-size: 2em;
+  margin-bottom: 5px;
+}
+.home-record{
+  margin-top: 0px;
+  width: 150px;
+}
+.vs{
+  font-family: 'Montserrat', sans-serif;
+  color: black;
+  font-size: 2em;
 }
 
 .opponent{
-  text-align: center;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
   width: 40%;
-  border: thick groove red;
+  margin-top: 20px;
+}
+.opponent-name{
+  font-family: 'Montserrat', sans-serif;
+  color: black;
+  font-size: 2em;
 }
 
-
-.home-name, .home-record, .opponent-name{
-  width: 80%;
-  align-content: center;
-  font-size: 1.2em;
+.opponent-record-list{
+  margin-top: 5px;
+  width: 150px;
 }
-
+#enter-new-opponent{
+  width: 275px;
+}
+.vs{
+}
+.vs p{}
 .options{
   display: flex;
   flex-flow: column;
