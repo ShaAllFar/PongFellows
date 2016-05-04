@@ -215,13 +215,14 @@ if (homeRecord) {
     userPercentageWins();
     var winList = document.createElement('li');
     var lossList = document.createElement('li');
-    var winPercentList = document.createElement('li');
+    // var winPercentList = document.createElement('li');
+
     winList.textContent = ('Wins: ' + allUsers[activeUserIndex].wins);
     lossList.textContent = ('Losses: ' + allUsers[activeUserIndex].loss);
-    winPercentList.textContent = ('Win%: ' + allUsers[activeUserIndex].percentage);
+    // winPercentList.textContent = ('Win%: ' + allUsers[activeUserIndex].percentage);
     homeRecord.appendChild(winList);
     homeRecord.appendChild(lossList);
-    homeRecord.appendChild(winPercentList);
+    // homeRecord.appendChild(winPercentList);
   })();
 }
 //Calculates percentage for selected opponent of active user --> setup.html
@@ -231,7 +232,7 @@ function calculateOpponentPercentage(index) {
   var lossValue = allUsers[activeUserIndex].opponentsArray[index][2];
   // console.log(lossValue);
   var percentValue = '';
-  if (lossValue != 0 && winValue != 0) {
+  if ((lossValue + winValue) > 0) {
     percentValue = parseInt((winValue / (winValue + lossValue)) * 100);
     return percentValue;
   } else {
@@ -246,16 +247,16 @@ function calculateAndDisplayOpponentWinPercentage() {
 
   var winList = document.createElement('li');
   var lossList = document.createElement('li');
-  var winPercentList = document.createElement('li');
+  // var winPercentList = document.createElement('li');
   winList.setAttribute('id', 'win-list');
   lossList.setAttribute('id', 'loss-list');
-  winPercentList.setAttribute('id', 'win-percent-list');
+  // winPercentList.setAttribute('id', 'win-percent-list');
   winList.textContent = ('Wins: ' + sumWin);
   lossList.textContent = ('Losses: ' + sumLoss);
-  winPercentList.textContent = ('Win%: ' + winPercent);
+  // winPercentList.textContent = ('Win%: ' + winPercent);
   opponentRecordList.appendChild(winList);
   opponentRecordList.appendChild(lossList);
-  opponentRecordList.appendChild(winPercentList);
+  // opponentRecordList.appendChild(winPercentList);
 }
 //Handles the change event on the select drop down box --> setup.html
 function handleOpponentChangeEvent(event) {
@@ -303,6 +304,9 @@ function handleSetUpEvent(event) {
       localStorage.setItem('storedGameScore', JSON.stringify(radioValue));
     }
   }
+  if (opponentName.value == 'no-opponent') {
+    alert('Please select an opponent.');
+  }
   if (document.getElementById('enter-new-opponent')) {
     var newOpponent = event.target.enterNewOpponent.value.toString().toUpperCase();
     var currentUser = allUsers[activeUserIndex];
@@ -320,7 +324,7 @@ function handleSetUpEvent(event) {
       window.location = 'scoreboard.html';
     }
   }
-  if (opponentName.value != 'new-opponent') {
+  if (opponentName.value != 'new-opponent' && opponentName.value != 'no-opponent') {
     localStorage.setItem('storedActiveOpponent', JSON.stringify(opponentName.value));
     window.location = 'scoreboard.html';
   }
@@ -404,7 +408,11 @@ function homePowerUp(event){
   globalCounter++;
   serverChange();
   homeScore.textContent = pad2(globalHomeScore);
-  homeGamePoint();
+  if (globalHomeScore === globalAwayScore && globalHomeScore === endGameScore - 1) {
+    // homeGamePoint();
+    console.log('endGameScore increments');
+    endGameScore++;
+  }
   if (endGameScore == globalHomeScore){
     if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
       alert(allUsers[activeUserIndex].userName + ' WINS!!!');
@@ -413,16 +421,23 @@ function homePowerUp(event){
       awayUp.removeEventListener('click', awayPowerUp);
       awayDown.removeEventListener('click', awayPowerDown);
       scoreboardButtonContainer.style.visibility = 'visible';
-    }else{
-      endGameScore++;
-      console.log(endGameScore + 'this should go up by 1');
+      saveOpponentLossRecord();
+    // }
+    // else{
+      // endGameScore++;
+      // console.log(endGameScore + 'this should go up by 1');
     }
   }
+  homeGamePoint();
 }
 //Score decrementor event callback function for current active user --> scoreboard.html
 function homePowerDown(event){
   globalHomeScore--;
   globalCounter--;
+  if (endGameScore != JSON.parse(localStorage.storedGameScore)) {
+    endGameScore--;
+    awayGamePoint();
+  }
   serverChange();
   if (globalHomeScore < 1) {
     globalHomeScore = 00;
@@ -436,7 +451,11 @@ function awayPowerUp(event){
   globalCounter++;
   serverChange();
   awayScore.textContent = pad2(globalAwayScore);
-  awayGamePoint();
+  if (globalHomeScore === globalAwayScore && globalAwayScore === endGameScore - 1) {
+    // awayGamePoint();
+    console.log('endGameScore increments');
+    endGameScore++;
+  }
   if (endGameScore == globalAwayScore){
     if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
       console.log('away fucking won');
@@ -448,16 +467,23 @@ function awayPowerUp(event){
       awayUp.removeEventListener('click', awayPowerUp);
       awayDown.removeEventListener('click', awayPowerDown);
       scoreboardButtonContainer.style.visibility = 'visible';
-    }else{
-      endGameScore++;
-      console.log(endGameScore + ' this should go up by 1');
+      saveOpponentWinRecord();
     }
+    // else{
+    //   // endGameScore++;
+    //   console.log(endGameScore + ' this should go up by 1');
+    // }
   }
+  awayGamePoint();
 }
 //Score decrementor event callback function for current active opponent --> scoreboard.html
 function awayPowerDown(event){
   globalAwayScore--;
   globalCounter--;
+  if (endGameScore != JSON.parse(localStorage.storedGameScore)) {
+    endGameScore--;
+    homeGamePoint();
+  }
   serverChange();
   if (globalAwayScore < 1) {
     globalAwayScore = 00;
@@ -503,23 +529,35 @@ function serverChange(){
 
 function awayGamePoint(){
   if ((endGameScore - 1) === globalAwayScore){
+    console.log('Away\'s gamepoint!');
     if (awayServeLight.className === 'current-player-serve'){
       awayServeLight.removeAttribute('class', 'current-player-serve');
       homeServeLight.setAttribute('class', 'current-player-serve');
-      console.log('Away\'s gamepoint!');
     }
   }
 }
 
 function homeGamePoint(){
   if((endGameScore - 1) === globalHomeScore){
+    console.log('Home\'s game point!');
     if(homeServeLight.className === 'current-player-serve'){
       homeServeLight.removeAttribute('class', 'current-player-serve');
       awayServeLight.setAttribute('class', 'current-player-serve');
-      console.log('Home\'s game point!');
     }
   }
 }
+
+function saveOpponentWinRecord() {
+  allUsers[activeUserIndex].opponentsArray[opponentIndex][1]++;
+  calculateOpponentPercentage(opponentIndex);
+  localStorage.setItem('storedUsers', JSON.stringify(allUsers));
+}
+function saveOpponentLossRecord() {
+  allUsers[activeUserIndex].opponentsArray[opponentIndex][2]++;
+  calculateOpponentPercentage(opponentIndex);
+  localStorage.setItem('storedUsers', JSON.stringify(allUsers));
+}
+
 //Results.html JS
 var userResults = document.getElementById('user-results');
 // var opponentResults = document.getElementById('opponent-results');
