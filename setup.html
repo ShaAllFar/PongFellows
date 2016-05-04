@@ -2,34 +2,50 @@
 <html>
   <head>
     <title>Game Setup</title>
-    <link href="style.css" rel="stylesheet" type="text/css">
+    <!-- <link href="style.css" rel="stylesheet" type="text/css"> -->
     <link href="nothomestyle.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=News+Cycle' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/alertify.css" />
   </head>
   <body>
     <div id="nav-bar" class="nav-bar">
-      <img src="img/logo.png" />
+      <div id="logo-container" class="logo-container">
+        <div id="logo-placeholder" class="logo-placeholder">
+        </div>
+        <div class="logo-text">
+          <h1>PONG</h1>
+          <h1>FELLOWS</h1>
+        </div>
+      </div>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="setup.html">Settings</a></li>
+        <li><a id="current" href="setup.html">Game Setup</a></li>
+        <li><a href="scoreboard.html">Score Board</a></li>
         <li><a href="results.html">Records</a></li>
         <li><a href="about-us.html">About Us</a></li>
-        <li><a href="https://en.wikipedia.org/wiki/Table_tennis" target="_blank">Learn Game Play!</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Table_tennis" target="_blank">Rules</a></li>
       </ul>
     </div>
     <div id="main-container" class="main-container">
       <form id="setup-form" class="setup-form">
         <div id="content" class="content">
-          <div class="user home-user" id="home-user">
-            <h3 id="home-name" class="home-name"></h3>
+          <div class="home-user" id="home-user">
+            <h1 id="home-name" class="home-name">Team Name</h1>
             <ul id="home-record" class="home-record"></ul>
           </div>
-          <div class="user opponent" id="opponent">
-            <select id="opponent-name" class="opponent-name"name="select">
+          <div id="vs" class="vs">
+            <p>VS</p>
+          </div>
+          <div class="opponent" id="opponent">
+            <select id="opponent-name" class="opponent-name" name="select" >
               <option value="no-opponent"> -- </option>
               <option value="new-opponent">New Opponent</option>
             </select>
-            <ul id="opponent-record-list" class="opponent-record-list"></ul>
+            <ul id="opponent-record-list" class="opponent-record-list">
+              <li>Win: 12</li>
+              <li>Losses: 12</li>
+            </ul>
           </div>
         </div>
         <div id="options" class="options">
