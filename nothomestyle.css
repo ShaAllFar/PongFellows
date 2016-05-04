@@ -1,3 +1,9 @@
+body{
+  margin: 0 auto;
+
+
+font-family: 'News Cycle', sans-serif;
+}
 .increment{
   border-radius: 100%;
   /*width: 1px;
@@ -86,7 +92,7 @@ form{
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  justify-content:space-around;
+  justify-content:center;
   color: black;
 }
 
@@ -105,6 +111,7 @@ form{
 }
 .home-record{
   margin-top: 0px;
+  width: 150px;
 }
 .vs{
   font-family: 'Montserrat', sans-serif;
@@ -113,9 +120,12 @@ form{
 }
 
 .opponent{
-  text-align: center;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
   width: 40%;
-  margin-top: 25px;
+  margin-top: 20px;
 }
 .opponent-name{
   font-family: 'Montserrat', sans-serif;
@@ -123,7 +133,16 @@ form{
   font-size: 2em;
 }
 
-
+.opponent-record-list{
+  margin-top: 5px;
+  width: 150px;
+}
+#enter-new-opponent{
+  width: 275px;
+}
+.vs{
+}
+.vs p{}
 .options{
   display: flex;
   flex-flow: column;
