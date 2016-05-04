@@ -16,6 +16,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .nav-bar img{
@@ -90,6 +91,7 @@ form{
 .options{
   display: flex;
   flex-flow: column;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .button, .radio-name{
@@ -178,4 +180,69 @@ form{
   width: 25%;
   height: 40px;
   margin: 0 auto;
+}
+
+.list-record {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.Kyle {
+  width: 700px;
+  height: auto;
+  font-family: 'News Cycle', sans-serif;
+}
+
+.Kyle h1{
+  font-family: 'Montserrat', sans-serif;
+}
+
+.Kyle img {
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.Sean {
+  width: 700px;
+  height: auto;
+  font-family: 'News Cycle', sans-serif;
+}
+
+.Sean h1{
+  font-family: 'Montserrat', sans-serif;
+}
+
+.Sean img {
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.Shawn {
+  width: 700px;
+  height: auto;
+  font-family: 'News Cycle', sans-serif;
+}
+
+.Shawn h1{
+  font-family: 'Montserrat', sans-serif;
+}
+
+.Shawn img {
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.Sung {
+  width: 700px;
+  height: auto;
+  font-family: 'News Cycle', sans-serif;
+}
+
+.Sung h1{
+  font-family: 'Montserrat', sans-serif;
+}
+
+.Sung img {
+  max-width: 300px;
+  max-height: 300px;
+
 }

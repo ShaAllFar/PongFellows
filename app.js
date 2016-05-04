@@ -71,7 +71,6 @@ allUsers.push(Sung);
 // localStorage.setItem('storedTestingUserArray', JSON.stringify(allUsers));
 // var parsedTestingUsers = JSON.parse(localStorage.storedTestingUserArray);
 // allUsers = parsedTestingUsers;
-
 //Handles Create User Event, includes validation of existing Users --> index.html
 function handleCreateUserEvent(event) {
   event.preventDefault();
@@ -352,7 +351,6 @@ if (opponentName) { //This event will create a textbox with one or no options in
     }
   });
 }
-
 //Scoreboard.html js
 
 //Displays active user name and active opponent name on scoreboard --> scoreboard.html
@@ -437,6 +435,9 @@ function awayPowerUp(event){
   awayScore.textContent = pad2(globalAwayScore);
   if (endGameScore == globalAwayScore){
     if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
+      console.log('away fucking won');
+      // allUsers[activeUserIndex].opponentsArray[opponentIndex][1] + 1;
+      // console.log('Opponent score for wins should have gone up, it is: ' + allUsers[activeUserIndex].opponentsArray[opponentIndex][1]);
       alert(JSON.parse(localStorage.storedActiveOpponent) + ' WINS!!!');
       homeUp.removeEventListener('click', homePowerUp);
       homeDown.removeEventListener('click', homePowerDown);
@@ -593,4 +594,24 @@ if (listResults) {
       mainTable.appendChild(hrEl);
     }
   })();
+}
+
+var newOpponentButton = document.getElementById('new-opponent-button');
+var rematchButton = document.getElementById('rematch-button');
+var resultsButton = document.getElementById('records-button');
+
+// newOpponentButton.addEventListener('click', newOpponentSetup);
+// rematchButton.addEventListener('click', rematchSetup);
+// resultsButton.addEventListener('click', resultsSetup);
+
+function newOpponentSetup() {
+  window.location.href = 'setup.html';
+}
+
+function rematchSetup() {
+  window.location.href = 'scoreboard.html';
+}
+
+function resultsSetup() {
+  window.location.href = 'results.html';
 }
