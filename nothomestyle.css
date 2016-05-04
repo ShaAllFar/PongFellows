@@ -301,3 +301,63 @@ form{
   max-height: 300px;
 
 }
+
+#user-results {
+  padding-bottom: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 20px;
+}
+
+#results-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: lightgrey;
+  width: 100%;
+  align-items: center;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  padding-top: 20px;
+}
+
+
+#overall-record th {
+  border-bottom: solid;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 30px;
+  padding-bottom: 10px;
+}
+
+#overall-record td {
+  text-align: center;
+  padding: 10px;
+  font-family: 'News Cycle', sans-serif;
+  font-size: 20px;
+}
+
+#list-record td {
+  text-align: center;
+  padding: 10px;
+  border-bottom: solid;
+  border-width: thin;
+  font-family: 'News Cycle', sans-serif;
+  font-size: 20px;
+}
+
+#list-record th {
+  border-bottom: solid;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 30px;
+  padding-bottom: 10px;
+}
+
+table {
+width: 800px;
+padding: 10px;
+border-collapse: collapse;
+}
+
+hr {
+  display: none;
+}
