@@ -8,9 +8,7 @@ var createUser = document.getElementById('sign-up-form');
 var homeName = document.getElementById('home-name');
 var setUpForm = document.getElementById('setup-form');
 var opponentName = document.getElementById('opponent-name');
-var content = document.getElementById('content');
 var opponentRecord = document.getElementById('opponent');
-var radioScore = document.getElementById('radio-score');
 var endScore = document.getElementsByName('end-score');
 var homeRecord = document.getElementById('home-record');
 var opponentRecordList = document.getElementById('opponent-record-list');
@@ -22,7 +20,58 @@ function UserObject(name, password) {
   this.opponentsArray = [];
   this.wins = 0;
   this.loss = 0;
+  this.percentage = 0;
 }
+// UserObject.prototype.userTotalWinsAndLosses = function() {
+//   for (var i = 0; i < this.opponentsArray.length; i++) {
+//     this.wins += this.opponentsArray[i][2];
+//     this.loss += this.opponentsArray[i][1];
+//   }
+//   console.log('the number of wins is ' + this.wins);
+//   console.log('the number of losses is ' + this.loss);
+// };
+function userTotalWinsAndLosses() {
+  var totalWins = 0;
+  var totalLoss = 0;
+  for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
+    totalWins += allUsers[activeUserIndex].opponentsArray[i][2];
+    totalLoss += allUsers[activeUserIndex].opponentsArray[i][1];
+  }
+  allUsers[activeUserIndex].wins = totalWins;
+  allUsers[activeUserIndex].loss = totalLoss;
+}
+// UserObject.prototype.userPercentageWins = function() {
+//   this.percentage = parseInt((this.wins / (this.loss + this.wins)) * 100);
+//   console.log(this.percentage);
+// };
+function userPercentageWins() {
+  allUsers[activeUserIndex].percentage = parseInt((allUsers[activeUserIndex].wins) / (allUsers[activeUserIndex].loss + allUsers[activeUserIndex].wins) * 100);
+}
+
+var Shawn = new UserObject('Shawn', 'coolguy');
+var Sean = new UserObject('Sean', 'awesomeguy');
+var Kyle = new UserObject('Kyle', 'greatguy');
+var Sung = new UserObject('Sung', 'niceguy');
+var opponent1 = ['Sam', 3, 4];
+var opponent2 = ['Jon', 4, 5];
+var opponent3 = ['Katie', 6, 0];
+var opponent4 = ['Dan', 5, 2];
+var opponent5 = ['Spencer', 3, 3];
+var opponent6 = ['Benton', 10, 0];
+Shawn.opponentsArray.push(opponent1);
+Shawn.opponentsArray.push(opponent2);
+Shawn.opponentsArray.push(opponent3);
+Shawn.opponentsArray.push(opponent4);
+Shawn.opponentsArray.push(opponent5);
+Shawn.opponentsArray.push(opponent6);
+allUsers.push(Shawn);
+allUsers.push(Sean);
+allUsers.push(Kyle);
+allUsers.push(Sung);
+// localStorage.setItem('storedTestingUserArray', JSON.stringify(allUsers));
+// var parsedTestingUsers = JSON.parse(localStorage.storedTestingUserArray);
+// allUsers = parsedTestingUsers;
+
 //Handles Create User Event, includes validation of existing Users --> index.html
 function handleCreateUserEvent(event) {
   event.preventDefault();
@@ -67,6 +116,7 @@ function handleValidateEvent(event) {
     }
     if (userExists) {
       //store new user into local storage
+      localStorage.setItem('storedUsers', JSON.stringify(allUsers));
       localStorage.setItem('storedActiveUser', JSON.stringify(logInName));
       window.location = 'setup.html';
     } else if (!userExists) {
@@ -84,14 +134,18 @@ function handleValidateEvent(event) {
 (function checkLocal() {
   if (localStorage.storedUsers) {
     var parsedStoredUsers = JSON.parse(localStorage.storedUsers);
+    // for (i = 0; i < parsedStoredUsers.length; i++) {
+    //   parsedStoredUsers[i].prototype = UserObject;
+    // }
     allUsers = parsedStoredUsers;
   }
-  // console.log(allUsers);
+  console.log(allUsers);
   return allUsers;
 })();
 //Finds the index at which the active user belongs in allUsers array
 if (localStorage.storedActiveUser) {
   (function findActiveUser() {
+    console.log('I am looking for the active user');
     var checkForUser = JSON.parse(localStorage.storedActiveUser);
     var foundUser = false;
     for (var i = 0; i < allUsers.length; i++) {
@@ -109,8 +163,7 @@ if (localStorage.storedActiveUser) {
     }
   })();
 }
-//Finds an opponent's index inside an active user's opponentsArray with an opponent's
-//name passed as a parameter
+//Finds an opponent's index inside an active user's opponentsArray with an opponent's name passed as a parameter
 function findOpponentIndex(opponentNameValue) {
   var foundOpponent = false;
   if (allUsers[activeUserIndex].opponentsArray.length > 0) {
@@ -129,8 +182,7 @@ function findOpponentIndex(opponentNameValue) {
     return -1;
   }
 }
-//On page load, adds existing opponents in a specific User's opponentsArray into the select
-//drop down box using appendChild --> setup.html
+//On page load, adds existing opponents in a specific User's opponentsArray into the select drop down box using appendChild --> setup.html
 if (opponentName) {
   (function extendActiveOpponentsList() {
     var currentUser = allUsers[activeUserIndex];
@@ -153,45 +205,37 @@ function createTextBox() {
   inputEl.setAttribute('size', '15');
   opponentRecord.appendChild(inputEl);
 }
-//Calculates and displays win, loss, percentage for active user --> setup.html
+//Calculates and displays total wins, total losses, and percentage for active user --> setup.html
 if (homeRecord) {
   (function calculateAndDisplayWinPercentage() {
-    var sumWin = 0;
-    var sumLoss = 0;
-    var winPercent = 0;
-    for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
-      sumWin += allUsers[activeUserIndex].opponentsArray[i][1];
-      sumLoss += allUsers[activeUserIndex].opponentsArray[i][2];
-    }
-    if (sumLoss !== 0) {
-      winPercent = parseInt((sumWin / sumLoss) * 100);
-    } else {
-      winPercent = '';
-    }
+    userTotalWinsAndLosses();
+    userPercentageWins();
     var winList = document.createElement('li');
     var lossList = document.createElement('li');
     var winPercentList = document.createElement('li');
-    winList.textContent = ('Wins: ' + sumWin);
-    lossList.textContent = ('Losses: ' + sumLoss);
-    winPercentList.textContent = ('Win%: ' + winPercent);
+    winList.textContent = ('Wins: ' + allUsers[activeUserIndex].wins);
+    lossList.textContent = ('Losses: ' + allUsers[activeUserIndex].loss);
+    winPercentList.textContent = ('Win%: ' + allUsers[activeUserIndex].percentage);
     homeRecord.appendChild(winList);
     homeRecord.appendChild(lossList);
     homeRecord.appendChild(winPercentList);
   })();
 }
-//Calculates and displays win, loss, percentage for selected opponent of active user
-//--> setup.html
+//Calculates percentage for selected opponent of active user --> setup.html
+function calculateOpponentPercentage(index) {
+  var winValue = allUsers[activeUserIndex].opponentsArray[index][1];
+  // console.log(winValue);
+  var lossValue = allUsers[activeUserIndex].opponentsArray[index][2];
+  // console.log(lossValue);
+  var percentValue = parseInt((winValue / (winValue + lossValue)) * 100);
+  return percentValue;
+}
+//Displays opponent statistics of wins, loss, and win percentage --> setup.html
 function calculateAndDisplayOpponentWinPercentage() {
   var sumWin = allUsers[activeUserIndex].opponentsArray[opponentIndex][1];
-  // console.log(sumWin);
   var sumLoss = allUsers[activeUserIndex].opponentsArray[opponentIndex][2];
-  // console.log(sumLoss);
-  var winPercent = 0;
-  if (sumLoss !== 0) {
-    winPercent = parseInt((sumWin / sumLoss) * 100);
-  } else {
-    winPercent = '';
-  }
+  var winPercent = calculateOpponentPercentage(opponentIndex);
+
   var winList = document.createElement('li');
   var lossList = document.createElement('li');
   var winPercentList = document.createElement('li');
@@ -211,11 +255,11 @@ function handleOpponentChangeEvent(event) {
   console.log(opponentName.value);
   findOpponentIndex(opponentName.value);
   console.log('this is the opponent index: ' + opponentIndex);
+  var winList = document.getElementById('win-list');
+  var lossList = document.getElementById('loss-list');
+  var winPercentList = document.getElementById('win-percent-list');
   if (opponentName.value == 'new-opponent') {
     // console.log('There were previous opponents, but I want to make a new one');
-    var winList = document.getElementById('win-list');
-    var lossList = document.getElementById('loss-list');
-    var winPercentList = document.getElementById('win-percent-list');
     if (winList || lossList || winPercentList) {
       opponentRecordList.removeChild(winList);
       opponentRecordList.removeChild(lossList);
@@ -226,6 +270,11 @@ function handleOpponentChangeEvent(event) {
     }
   } else if (allUsers[activeUserIndex].opponentsArray[opponentIndex][0] == opponentName.value) {
     if (!document.getElementById('win-list')) {
+      calculateAndDisplayOpponentWinPercentage();
+    } else if (document.getElementById('win-list')) {
+      opponentRecordList.removeChild(winList);
+      opponentRecordList.removeChild(lossList);
+      opponentRecordList.removeChild(winPercentList);
       calculateAndDisplayOpponentWinPercentage();
     }
     // console.log('I want to remove the text box');
@@ -260,18 +309,12 @@ function handleSetUpEvent(event) {
       window.location = 'scoreboard.html';
     }
   }
+  if (opponentName.value != 'new-opponent') {
+    localStorage.setItem('storedActiveOpponent', JSON.stringify(opponentName.value));
+    window.location = 'scoreboard.html';
+  }
 }
-
-if (document.getElementById('name-display-container')) {
-  (function displayNamesOnScoreboard() {
-    var homeTeam = document.getElementById('home-team');
-    var awayTeam = document.getElementById('away-team');
-    homeTeam.textContent = JSON.parse(localStorage.storedActiveUser);
-    awayTeam.textContent = JSON.parse(localStorage.storedActiveOpponent);
-  })();
-}
-//Finds existing users and setting h3 tage in setup.html to represent User Name
-//from local storage --> setup.html
+//Finds existing users and setting h3 tage in setup.html to represent User Name from local storage --> setup.html
 if (homeName) {
   homeName.textContent = JSON.parse(localStorage.storedActiveUser);
 }
@@ -302,6 +345,17 @@ if (opponentName) { //This event will create a textbox with one or no options in
 }
 
 //Scoreboard.html js
+
+//Displays active user name and active opponent name on scoreboard --> scoreboard.html
+if (document.getElementById('name-display-container')) {
+  (function displayNamesOnScoreboard() {
+    var homeTeam = document.getElementById('home-team');
+    var awayTeam = document.getElementById('away-team');
+    homeTeam.textContent = JSON.parse(localStorage.storedActiveUser);
+    awayTeam.textContent = JSON.parse(localStorage.storedActiveOpponent);
+  })();
+}
+//Will ensure single digit numbers will be displayed with a 0 in front --> scoreboard.html
 function pad2(number) {
   return (number < 10 ? '0' : '') + number;
 }
@@ -313,15 +367,27 @@ var homeScore = document.getElementById('home-score');
 var awayScore = document.getElementById('away-score');
 var globalHomeScore = pad2(0);
 var globalAwayScore = pad2(0);
-var buttonContainer = document.getElementById('button-container');
-var endGameScore = parseInt(JSON.parse(localStorage.storedGameScore));
+var scoreboardButtonContainer = document.getElementById('scoreboard-button-container');
 
-homeUp.addEventListener('click', homePowerUp);
-homeDown.addEventListener('click', homePowerDown);
-awayUp.addEventListener('click', awayPowerUp);
-awayDown.addEventListener('click', awayPowerDown);
-buttonContainer.style.visibility = 'hidden';
-
+if (document.getElementById('main-scoreboard-container')) {
+  var endGameScore = parseInt(JSON.parse(localStorage.storedGameScore));
+}
+if (homeUp) {
+  homeUp.addEventListener('click', homePowerUp);
+}
+if (homeDown) {
+  homeDown.addEventListener('click', homePowerDown);
+}
+if (awayUp) {
+  awayUp.addEventListener('click', awayPowerUp);
+}
+if (awayDown) {
+  awayDown.addEventListener('click', awayPowerDown);
+}
+if (scoreboardButtonContainer) {
+  scoreboardButtonContainer.style.visibility = 'hidden';
+}
+//Score incrementor event callback function for current active user. Stops game when appropriate score value is achieved --> scoreboard.html
 function homePowerUp(event){
   globalHomeScore++;
   homeScore.textContent = pad2(globalHomeScore);
@@ -332,14 +398,14 @@ function homePowerUp(event){
       homeDown.removeEventListener('click', homePowerDown);
       awayUp.removeEventListener('click', awayPowerUp);
       awayDown.removeEventListener('click', awayPowerDown);
-      buttonContainer.style.visibility = 'visible';
+      scoreboardButtonContainer.style.visibility = 'visible';
     }else{
       endGameScore++;
       console.log(endGameScore + 'this should go up by 1');
     }
   }
-};
-
+}
+//Score decrementor event callback function for current active user --> scoreboard.html
 function homePowerDown(event){
   globalHomeScore--;
   if (globalHomeScore < 1) {
@@ -347,10 +413,10 @@ function homePowerDown(event){
   }
   homeScore.textContent = pad2(globalHomeScore);
 }
+//Score incrementor event callback function for current active opponent. Stops game when appropriate score value is achieved --> scoreboard.html
 function awayPowerUp(event){
   globalAwayScore++;
   awayScore.textContent = pad2(globalAwayScore);
-
   if (endGameScore == globalAwayScore){
     if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
       console.log('away fucking won');
@@ -358,18 +424,97 @@ function awayPowerUp(event){
       homeDown.removeEventListener('click', homePowerDown);
       awayUp.removeEventListener('click', awayPowerUp);
       awayDown.removeEventListener('click', awayPowerDown);
-      buttonContainer.style.visibility = 'visible';
+      scoreboardButtonContainer.style.visibility = 'visible';
     }else{
       endGameScore++;
       console.log(endGameScore + 'this should go up by 1');
     }
   }
-};
-
+}
+//Score decrementor event callback function for current active opponent --> scoreboard.html
 function awayPowerDown(event){
   globalAwayScore--;
   if (globalAwayScore < 1) {
     globalAwayScore = 00;
   }
   awayScore.textContent = pad2(globalAwayScore);
-};
+}
+
+//Results.html JS
+var userResults = document.getElementById('user-results');
+// var opponentResults = document.getElementById('opponent-results');
+var listResults = document.getElementById('list-record');
+//Renders table on page load for current active user --> results.html
+if (userResults) {
+  (function renderUserData() {
+    userTotalWinsAndLosses();
+    userPercentageWins();
+    var trEl1 = document.createElement('tr');
+    userResults.appendChild(trEl1);
+    var thEl1 = document.createElement('th');
+    thEl1.textContent = '';
+    var thEl2 = document.createElement('th');
+    thEl2.textContent = 'Wins';
+    var thEl3 = document.createElement('th');
+    thEl3.textContent = 'Losses';
+    var thEl4 = document.createElement('th');
+    thEl4.textContent = 'Win Percentage';
+    trEl1.appendChild(thEl1);
+    trEl1.appendChild(thEl2);
+    trEl1.appendChild(thEl3);
+    trEl1.appendChild(thEl4);
+    var trEl2 = document.createElement('tr');
+    userResults.appendChild(trEl2);
+    var tdEl1 = document.createElement('td');
+    tdEl1.textContent = allUsers[activeUserIndex].userName;
+    var tdEl2 = document.createElement('td');
+    tdEl2.textContent = allUsers[activeUserIndex].wins;
+    var tdEl3 = document.createElement('td');
+    tdEl3.textContent = allUsers[activeUserIndex].loss;
+    var tdEl4 = document.createElement('td');
+    tdEl4.textContent = allUsers[activeUserIndex].percentage;
+    trEl2.appendChild(tdEl1);
+    trEl2.appendChild(tdEl2);
+    trEl2.appendChild(tdEl3);
+    trEl2.appendChild(tdEl4);
+  })();
+}
+//Renders table on page load for all opponents of current active user --> results.html
+if (listResults) {
+  (function renderOpponentData() {
+    var mainTable = document.createElement('table');
+    listResults.appendChild(mainTable);
+    var mainTrEl = document.createElement('tr');
+    mainTable.appendChild(mainTrEl);
+    var thEl1 = document.createElement('th');
+    thEl1.textContent = '';
+    var thEl2 = document.createElement('th');
+    thEl2.textContent = 'Wins';
+    var thEl3 = document.createElement('th');
+    thEl3.textContent = 'Losses';
+    var thEl4 = document.createElement('th');
+    thEl4.textContent = 'Win Percentage';
+    mainTrEl.appendChild(thEl1);
+    mainTrEl.appendChild(thEl2);
+    mainTrEl.appendChild(thEl3);
+    mainTrEl.appendChild(thEl4);
+    for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
+      var trEl = document.createElement('tr');
+      var tdEl1 = document.createElement('td');
+      var tdEl2 = document.createElement('td');
+      var tdEl3 = document.createElement('td');
+      var tdEl4 = document.createElement('td');
+      tdEl1.textContent = allUsers[activeUserIndex].opponentsArray[i][0];
+      tdEl2.textContent = allUsers[activeUserIndex].opponentsArray[i][1];
+      tdEl3.textContent = allUsers[activeUserIndex].opponentsArray[i][2];
+      tdEl4.textContent = calculateOpponentPercentage(i);
+      mainTable.appendChild(trEl);
+      trEl.appendChild(tdEl1);
+      trEl.appendChild(tdEl2);
+      trEl.appendChild(tdEl3);
+      trEl.appendChild(tdEl4);
+      var hrEl = document.createElement('hr');
+      mainTable.appendChild(hrEl);
+    }
+  })();
+}
