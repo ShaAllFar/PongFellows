@@ -134,13 +134,14 @@ function handleValidateEvent(event) {
 (function checkLocal() {
   if (localStorage.storedUsers) {
     var parsedStoredUsers = JSON.parse(localStorage.storedUsers);
-    // for (i = 0; i < parsedStoredUsers.length; i++) {
-    //   parsedStoredUsers[i].prototype = UserObject;
-    // }
     allUsers = parsedStoredUsers;
   }
+  if (localStorage.storedOpponentIndex) {
+    var parsedStoredOpponentIndex = JSON.parse(localStorage.storedOpponentIndex);
+    opponentIndex = parsedStoredOpponentIndex;
+  }
   console.log(allUsers);
-  return allUsers;
+  // return allUsers;
 })();
 //Finds the index at which the active user belongs in allUsers array
 if (localStorage.storedActiveUser) {
@@ -227,8 +228,13 @@ function calculateOpponentPercentage(index) {
   // console.log(winValue);
   var lossValue = allUsers[activeUserIndex].opponentsArray[index][2];
   // console.log(lossValue);
-  var percentValue = parseInt((winValue / (winValue + lossValue)) * 100);
-  return percentValue;
+  var percentValue = '';
+  if (lossValue != 0 && winValue != 0) {
+    percentValue = parseInt((winValue / (winValue + lossValue)) * 100);
+    return percentValue;
+  } else {
+    return percentValue;
+  }
 }
 //Displays opponent statistics of wins, loss, and win percentage --> setup.html
 function calculateAndDisplayOpponentWinPercentage() {
@@ -304,6 +310,9 @@ function handleSetUpEvent(event) {
     } else {
       console.log('I want to enter a new opponent');
       currentUser.opponentsArray.push([newOpponent, 0, 0]);
+      findOpponentIndex(newOpponent.toUpperCase());
+      console.log('The new opponent index is ' + opponentIndex);
+      localStorage.setItem('storedOpponentIndex', JSON.stringify(opponentIndex));
       localStorage.setItem('storedUsers', JSON.stringify(allUsers));
       localStorage.setItem('storedActiveOpponent', JSON.stringify(newOpponent));
       window.location = 'scoreboard.html';
