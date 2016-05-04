@@ -12,6 +12,7 @@
         <li><a href="setup.html">Settings</a></li>
         <li><a href="results.html">Records</a></li>
         <li><a href="about-us.html">About Us</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Table_tennis" target="_blank">Learn Game Play!</a></li>
       </ul>
     </div>
     <div id="main-container" class="main-container">
@@ -41,9 +42,9 @@
         </div>
       </div>
       <div id="scoreboard-button-container" class="button-container">
-        <button id="rematch-button" class="rematch-button" type="button">Rematch</button>
-        <button id="new-opponent-button" class="new-opponent-button" type="button">New Opponent</button>
-        <button id="records-button" class="records-button" type="button">Records</button>
+        <button id="rematch-button" class="rematch-button" type="button" onclick="return rematchSetup()">Rematch</button>
+        <button id="new-opponent-button" class="new-opponent-button" type="button" onclick="return newOpponentSetup()">New Opponent</button>
+        <button id="records-button" class="records-button" type="button" onclick="return resultsSetup()">Records</button>
       </div>
     </div>
     <script src="app.js"></script>

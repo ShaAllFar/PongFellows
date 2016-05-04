@@ -71,7 +71,6 @@ allUsers.push(Sung);
 // localStorage.setItem('storedTestingUserArray', JSON.stringify(allUsers));
 // var parsedTestingUsers = JSON.parse(localStorage.storedTestingUserArray);
 // allUsers = parsedTestingUsers;
-
 //Handles Create User Event, includes validation of existing Users --> index.html
 function handleCreateUserEvent(event) {
   event.preventDefault();
@@ -139,8 +138,12 @@ function handleValidateEvent(event) {
     // }
     allUsers = parsedStoredUsers;
   }
+  if (localStorage.storedOpponentIndex) {
+    var parsedStoredOpponentIndex = JSON.parse(localStorage.storedOpponentIndex);
+    opponentIndex = parsedStoredOpponentIndex;
+  }
   console.log(allUsers);
-  return allUsers;
+  // return allUsers;
 })();
 //Finds the index at which the active user belongs in allUsers array
 if (localStorage.storedActiveUser) {
@@ -227,8 +230,13 @@ function calculateOpponentPercentage(index) {
   // console.log(winValue);
   var lossValue = allUsers[activeUserIndex].opponentsArray[index][2];
   // console.log(lossValue);
-  var percentValue = parseInt((winValue / (winValue + lossValue)) * 100);
-  return percentValue;
+  var percentValue = '';
+  if (lossValue != 0 && winValue != 0) {
+    percentValue = parseInt((winValue / (winValue + lossValue)) * 100);
+    return percentValue;
+  } else {
+    return percentValue;
+  }
 }
 //Displays opponent statistics of wins, loss, and win percentage --> setup.html
 function calculateAndDisplayOpponentWinPercentage() {
@@ -304,6 +312,9 @@ function handleSetUpEvent(event) {
     } else {
       console.log('I want to enter a new opponent');
       currentUser.opponentsArray.push([newOpponent, 0, 0]);
+      findOpponentIndex(newOpponent.toUpperCase());
+      console.log('The new opponent index is ' + opponentIndex);
+      localStorage.setItem('storedOpponentIndex', JSON.stringify(opponentIndex));
       localStorage.setItem('storedUsers', JSON.stringify(allUsers));
       localStorage.setItem('storedActiveOpponent', JSON.stringify(newOpponent));
       window.location = 'scoreboard.html';
@@ -343,7 +354,6 @@ if (opponentName) { //This event will create a textbox with one or no options in
     }
   });
 }
-
 //Scoreboard.html js
 
 //Displays active user name and active opponent name on scoreboard --> scoreboard.html
@@ -429,6 +439,9 @@ function awayPowerUp(event){
   awayGamePoint();
   if (endGameScore == globalAwayScore){
     if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
+      console.log('away fucking won');
+      // allUsers[activeUserIndex].opponentsArray[opponentIndex][1] + 1;
+      // console.log('Opponent score for wins should have gone up, it is: ' + allUsers[activeUserIndex].opponentsArray[opponentIndex][1]);
       alert(JSON.parse(localStorage.storedActiveOpponent) + ' WINS!!!');
       homeUp.removeEventListener('click', homePowerUp);
       homeDown.removeEventListener('click', homePowerDown);
@@ -584,4 +597,24 @@ if (listResults) {
       mainTable.appendChild(hrEl);
     }
   })();
+}
+
+var newOpponentButton = document.getElementById('new-opponent-button');
+var rematchButton = document.getElementById('rematch-button');
+var resultsButton = document.getElementById('records-button');
+
+// newOpponentButton.addEventListener('click', newOpponentSetup);
+// rematchButton.addEventListener('click', rematchSetup);
+// resultsButton.addEventListener('click', resultsSetup);
+
+function newOpponentSetup() {
+  window.location.href = 'setup.html';
+}
+
+function rematchSetup() {
+  window.location.href = 'scoreboard.html';
+}
+
+function resultsSetup() {
+  window.location.href = 'results.html';
 }
