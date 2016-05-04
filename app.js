@@ -133,6 +133,9 @@ function handleValidateEvent(event) {
 (function checkLocal() {
   if (localStorage.storedUsers) {
     var parsedStoredUsers = JSON.parse(localStorage.storedUsers);
+    // for (i = 0; i < parsedStoredUsers.length; i++) {
+    //   parsedStoredUsers[i].prototype = UserObject;
+    // }
     allUsers = parsedStoredUsers;
   }
   if (localStorage.storedOpponentIndex) {
