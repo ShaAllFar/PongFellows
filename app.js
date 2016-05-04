@@ -368,6 +368,7 @@ if (document.getElementById('name-display-container')) {
 function pad2(number) {
   return (number < 10 ? '0' : '') + number;
 }
+var globalCounter = 0;
 var homeUp = document.getElementById('home-up');
 var homeDown = document.getElementById('home-down');
 var awayUp = document.getElementById('away-up');
@@ -399,10 +400,12 @@ if (scoreboardButtonContainer) {
 //Score incrementor event callback function for current active user. Stops game when appropriate score value is achieved --> scoreboard.html
 function homePowerUp(event){
   globalHomeScore++;
+  globalCounter++;
+  serverChange();
   homeScore.textContent = pad2(globalHomeScore);
   if (endGameScore == globalHomeScore){
     if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
-      console.log('Home fucking won');
+      alert(allUsers[activeUserIndex].userName + ' WINS!!!');
       homeUp.removeEventListener('click', homePowerUp);
       homeDown.removeEventListener('click', homePowerDown);
       awayUp.removeEventListener('click', awayPowerUp);
@@ -413,22 +416,28 @@ function homePowerUp(event){
       console.log(endGameScore + 'this should go up by 1');
     }
   }
+  homeGamePoint();
 }
 //Score decrementor event callback function for current active user --> scoreboard.html
 function homePowerDown(event){
   globalHomeScore--;
+  globalCounter--;
+  serverChange();
   if (globalHomeScore < 1) {
     globalHomeScore = 00;
   }
   homeScore.textContent = pad2(globalHomeScore);
+  homeGamePoint();
 }
 //Score incrementor event callback function for current active opponent. Stops game when appropriate score value is achieved --> scoreboard.html
 function awayPowerUp(event){
   globalAwayScore++;
+  globalCounter++;
+  serverChange();
   awayScore.textContent = pad2(globalAwayScore);
   if (endGameScore == globalAwayScore){
     if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
-      console.log('away fucking won');
+      alert(JSON.parse(localStorage.storedActiveOpponent) + ' WINS!!!');
       homeUp.removeEventListener('click', homePowerUp);
       homeDown.removeEventListener('click', homePowerDown);
       awayUp.removeEventListener('click', awayPowerUp);
@@ -439,16 +448,74 @@ function awayPowerUp(event){
       console.log(endGameScore + 'this should go up by 1');
     }
   }
+  awayGamePoint();
 }
 //Score decrementor event callback function for current active opponent --> scoreboard.html
 function awayPowerDown(event){
   globalAwayScore--;
+  globalCounter--;
+  serverChange();
   if (globalAwayScore < 1) {
     globalAwayScore = 00;
   }
   awayScore.textContent = pad2(globalAwayScore);
+  awayGamePoint();
+}
+//Serve Light
+// current-player-serve
+var homeServeLight = document.getElementById('current-home-serve');
+var awayServeLight = document.getElementById('current-away-serve');
+
+if (document.getElementById('serve-container')) {
+  (function coinFlip() {
+    var decision = Math.floor(Math.random() * (2)) + 1;
+    if (decision === 1) {
+      homeServeLight.setAttribute('class', 'current-player-serve');
+      alert(allUsers[activeUserIndex].userName + ' serves first!!!');
+    } else if (decision === 2) {
+      awayServeLight.setAttribute('class', 'current-player-serve');
+      alert(JSON.parse(localStorage.storedActiveOpponent) + ' serves first!!!');
+    }
+  })();
 }
 
+function lightChange(p1,p2) {
+  if (p1.className === 'current-player-serve'){
+    p1.removeAttribute('class', 'current-player-serve');
+    p2.setAttribute('class', 'current-player-serve');
+  }
+  else if (p2.className === 'current-player-serve') {
+    p2.removeAttribute('class', 'current-player-serve');
+    p1.setAttribute('class', 'current-player-serve');
+    // console.log('working');
+  }
+};
+
+function serverChange(){
+  if (globalCounter % 2 === 0) {
+    lightChange(homeServeLight, awayServeLight);
+  }
+}
+
+function awayGamePoint(){
+  if ((endGameScore - 1) === globalAwayScore){
+    if (awayServeLight.className === 'current-player-serve'){
+      awayServeLight.removeAttribute('class', 'current-player-serve');
+      homeServeLight.setAttribute('class', 'current-player-serve');
+      console.log('Away\'s gamepoint!');
+    }
+  }
+}
+
+function homeGamePoint(){
+  if((endGameScore - 1) === globalHomeScore){
+    if(homeServeLight.className === 'current-player-serve'){
+      homeServeLight.removeAttribute('class', 'current-player-serve');
+      awayServeLight.setAttribute('class', 'current-player-serve');
+      console.log('Home\'s game point!');
+    }
+  }
+}
 //Results.html JS
 var userResults = document.getElementById('user-results');
 // var opponentResults = document.getElementById('opponent-results');

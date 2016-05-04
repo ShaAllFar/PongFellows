@@ -144,14 +144,17 @@ form{
   flex-flow: row wrap;
   justify-content: space-around;
 }
-.current-home-serve{
+.current-player-serve{
+  background-color: yellow;
+}
+#current-home-serve{
   border: 3px solid black;
   border-radius: 50px;
   width: 50px;
   height: 50px;
-  background-color: yellow;
+
 }
-.current-away-serve{
+#current-away-serve{
   border: 3px solid black;
   border-radius: 50px;
   width: 50px;
