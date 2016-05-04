@@ -246,3 +246,49 @@ form{
   max-height: 300px;
 
 }
+
+#user-results {
+  background-color: lightgrey;
+  padding-bottom: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 20px;
+}
+
+
+#overall-record th {
+  border-bottom: solid;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  padding-bottom: 10px;
+}
+
+#overall-record td {
+  text-align: center;
+  padding: 10px;
+  font-family: 'News Cycle', sans-serif;
+}
+
+#list-record td {
+  text-align: center;
+  padding: 10px;
+  border-bottom: solid;
+  border-width: thin;
+  font-family: 'News Cycle', sans-serif;
+}
+
+#list-record th {
+  border-bottom: solid;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  padding-bottom: 10px;
+}
+
+table {
+width: 700px;
+padding: 10px;
+}
+
+hr {
+  display: none;
+}
