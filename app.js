@@ -394,6 +394,7 @@ function homePowerUp(event){
   globalCounter++;
   serverChange();
   homeScore.textContent = pad2(globalHomeScore);
+  homeGamePoint();
   if (endGameScore == globalHomeScore){
     if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
       alert(allUsers[activeUserIndex].userName + ' WINS!!!');
@@ -407,7 +408,6 @@ function homePowerUp(event){
       console.log(endGameScore + 'this should go up by 1');
     }
   }
-  homeGamePoint();
 }
 //Score decrementor event callback function for current active user --> scoreboard.html
 function homePowerDown(event){
@@ -426,6 +426,7 @@ function awayPowerUp(event){
   globalCounter++;
   serverChange();
   awayScore.textContent = pad2(globalAwayScore);
+  awayGamePoint();
   if (endGameScore == globalAwayScore){
     if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
       alert(JSON.parse(localStorage.storedActiveOpponent) + ' WINS!!!');
@@ -436,10 +437,9 @@ function awayPowerUp(event){
       scoreboardButtonContainer.style.visibility = 'visible';
     }else{
       endGameScore++;
-      console.log(endGameScore + 'this should go up by 1');
+      console.log(endGameScore + ' this should go up by 1');
     }
   }
-  awayGamePoint();
 }
 //Score decrementor event callback function for current active opponent --> scoreboard.html
 function awayPowerDown(event){
