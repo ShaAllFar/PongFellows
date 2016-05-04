@@ -599,11 +599,11 @@ if (userResults) {
 //Renders table on page load for all opponents of current active user --> results.html
 if (listResults) {
   (function renderOpponentData() {
-    var formContainer = document.createElement('form');
-    formContainer.setAttribute('id', 'opponent-data-container');
-    listResults.appendChild(formContainer);
+    // var formContainer = document.createElement('form');
+    // formContainer.setAttribute('id', 'opponent-data-container');
+    // listResults.appendChild(formContainer);
     var mainTable = document.createElement('table');
-    formContainer.appendChild(mainTable);
+    listResults.appendChild(mainTable);
     var mainTrEl = document.createElement('tr');
     mainTable.appendChild(mainTrEl);
     var thEl1 = document.createElement('th');
@@ -637,7 +637,8 @@ if (listResults) {
       trEl.appendChild(tdEl4);
       var removeButton = document.createElement('button');
       removeButton.setAttribute('class', 'remove-opponent');
-      removeButton.setAttribute('type', 'submit');
+      // removeButton.setAttribute('type', 'submit');
+      removeButton.setAttribute('id', allUsers[activeUserIndex].opponentsArray[i][0]);
       removeButton.textContent = 'Delete Opponent';
       trEl.appendChild(removeButton);
       var hrEl = document.createElement('hr');
@@ -648,10 +649,11 @@ if (listResults) {
 
 if (opponentFormContainer) {
   var opponentFormContainer = document.getElementById('opponent-data-container');
-  opponentFormContainer.addEventListener('submit', handleDeleteOpponent);
+  opponentFormContainer.addEventListener('click', handleDeleteOpponent);
 }
 function handleDeleteOpponent(event) {
-
+  event.preventDefault();
+  console.log(event.target.id);
 }
 var newOpponentButton = document.getElementById('new-opponent-button');
 var rematchButton = document.getElementById('rematch-button');
