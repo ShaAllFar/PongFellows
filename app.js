@@ -597,6 +597,7 @@ var userResults = document.getElementById('user-results');
 var listResults = document.getElementById('list-record');
 //Renders table on page load for current active user --> results.html
 var mainTable = document.createElement('table');
+mainTable.setAttribute('class', 'main-table');
 
 if (userResults) {
   (function renderUserData() {

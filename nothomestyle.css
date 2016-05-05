@@ -288,8 +288,27 @@ button {
   margin: 0 auto;
 }
 
+.table-style{
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  margin-left: 40px;
+}
 .list-record {
   font-family: 'Montserrat', sans-serif;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+}
+.remove-opponent{
+  width: 75px;
+  margin-left: 10px;
+}
+.main-table tr:nth-child(even){
+
 }
 
 .Kyle {

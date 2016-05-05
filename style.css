@@ -78,8 +78,6 @@ body{
   height: 40px;
   background-color: red;
   color: white;
-  position: absolute;
-  bottom: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -87,6 +85,8 @@ body{
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-size: .8em;
+  position: absolute;
+  bottom: 30px;
 }
 button {
   width: 265px;
