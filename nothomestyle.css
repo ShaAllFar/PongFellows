@@ -414,8 +414,6 @@ hr {
 }
 
 #setupBorder {
-  border-style: solid;
-  border-width: thin;
   border-color: grey;
   background-color: lightgrey;
   width: 60%;
