@@ -78,6 +78,8 @@ body{
   height: 40px;
   background-color: red;
   color: white;
+  position: absolute;
+  bottom: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -97,4 +99,8 @@ button {
 font-family: 'Montserrat', sans-serif;
 font-weight: 400;
 font-size: 1.2em;
+}
+
+input:focus, button:focus{
+  outline: none;
 }

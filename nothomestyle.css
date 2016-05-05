@@ -3,6 +3,10 @@ body{
   font-family: 'News Cycle', sans-serif;
 }
 
+input:focus, button:focus, select:focus{
+  outline: none;
+}
+
 .nav-bar{
   width: 100%;
   height: 75px;
@@ -13,6 +17,17 @@ body{
   font-family: 'Montserrat', sans-serif;
   color: white;
 }
+.logo-container{
+  display: flex;
+  flex-flow: row wrap;
+  width: 300px;
+}
+.logo-container h1{
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  font-size: 1.5em;
+  margin: 0px;
+}
 .logo-placeholder{
   width: 60px;
   height: auto;
@@ -20,17 +35,6 @@ body{
   margin-left: 50px;
   margin-right: 0px;
 
-}
-.logo-container{
-  display: flex;
-  flex-flow: row wrap;
-  width: 300px;
-}
-.logo-container h1{
-  font-family: 'Montserrat', sans-serif;*/
-  color: white;
-  font-size: 1.5em;
-  margin: 0px;
 }
 .logo-text{
   display: flex;
@@ -42,7 +46,7 @@ body{
 }
 ul{
   list-style-type: none;
-  width: 60%;
+  width: 50%;
   display: flex;
   flex-direction: row wrap;
   justify-content: space-around;
@@ -113,7 +117,7 @@ form{
   justify-content: center;
   align-items: center;
   width: 40%;
-  margin-top: 50px;
+  margin-top: 15px;
 }
 .opponent-name{
   font-family: 'Montserrat', sans-serif;
@@ -126,7 +130,10 @@ form{
   width: 150px;
 }
 #enter-new-opponent{
-  width: 250px;
+  width: 238px;
+  height: 35px;
+  font-size: 1.5em;
+  padding-left: 5px;
 
 }
 .vs{
@@ -141,21 +148,26 @@ form{
   font-family: 'Montserrat', sans-serif;
 }
 
-.radio{
-
-}
 
 .button, .radio-name{
   display: flex;
   justify-content: center;
   margin: 1em;
 }
+.radio input{
+  margin: 10px;
+}
+.button{
+  margin-top: 50px;
+}
 
 .radio{
   display: flex;
   flex-direction: row;
   justify-content: center;
+  width: 30%;
   font-size: 2em;
+  margin: 0 auto;
 }
 
 button {
