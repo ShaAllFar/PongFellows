@@ -757,16 +757,21 @@ function resultsSetup() {
 // console.log(alertHead);
 
 function editAlert(){
+  var divNew = document.createElement('div');
+  divNew.setAttribute('class', 'div-new');
   for (var i = 0; i < alertHead.length; i++) {
     var img = document.createElement('img');
     var firstName = document.createElement('h2');
     var lastName = document.createElement('h2');
+    lastName.setAttribute('id', 'logo-last-name');
     img.setAttribute('src', 'img/pong-fellows-logo.png');
+    img.setAttribute('class', 'alert-logo');
     alertHead[i].textContent = '';
     firstName.textContent = 'Pong';
     lastName.textContent = 'Fellows';
     alertHead[i].appendChild(img);
-    alertHead[i].appendChild(firstName);
-    alertHead[i].appendChild(lastName);
+    alertHead[i].appendChild(divNew);
+    divNew.appendChild(firstName);
+    divNew.appendChild(lastName);
   }
 }
