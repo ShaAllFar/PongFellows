@@ -1,18 +1,6 @@
 body{
   margin: 0 auto;
-
-
-font-family: 'News Cycle', sans-serif;
-}
-.increment{
-  border-radius: 100%;
-  /*width: 1px;
-  height: 1px;*/
-}
-
-.increment-pic{
-  width: 5em;
-  height: 5em;
+  font-family: 'News Cycle', sans-serif;
 }
 
 .nav-bar{
@@ -26,12 +14,11 @@ font-family: 'News Cycle', sans-serif;
   color: white;
 }
 .logo-placeholder{
-  width: 50px;
-  height: 55px;
-  background-color: red;
-  margin: 10px;
+  width: 60px;
+  height: auto;
+  margin: 5px;
   margin-left: 50px;
-  margin-right: 5px;
+  margin-right: 0px;
 
 }
 .logo-container{
@@ -40,7 +27,7 @@ font-family: 'News Cycle', sans-serif;
   width: 300px;
 }
 .logo-container h1{
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif;*/
   color: white;
   font-size: 1.5em;
   margin: 0px;
@@ -90,6 +77,7 @@ form{
 
 .content{
   width: 100%;
+  height: auto;
   display: flex;
   flex-flow: row wrap;
   justify-content:center;
@@ -125,12 +113,12 @@ form{
   justify-content: center;
   align-items: center;
   width: 40%;
-  margin-top: 20px;
+  margin-top: 50px;
 }
 .opponent-name{
   font-family: 'Montserrat', sans-serif;
   color: black;
-  font-size: 2em;
+  font-size: 1.8em;
 }
 
 .opponent-record-list{
@@ -138,15 +126,23 @@ form{
   width: 150px;
 }
 #enter-new-opponent{
-  width: 275px;
+  width: 250px;
+
 }
 .vs{
+  margin-top: 40px;
 }
 .vs p{}
 .options{
+
   display: flex;
   flex-flow: column;
+  justify-content: flex-start;
   font-family: 'Montserrat', sans-serif;
+}
+
+.radio{
+
 }
 
 .button, .radio-name{
@@ -159,6 +155,19 @@ form{
   display: flex;
   flex-direction: row;
   justify-content: center;
+  font-size: 2em;
+}
+
+button {
+  width: 265px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: red;
+  border-color: red;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 1.2em;
 }
 
 /*Scoreboard Page*/
@@ -174,26 +183,49 @@ form{
   flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
+  width: 70%;
+  margin: 0 auto;
 }
 .name-display-container h1{
   width: 40%;
   text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 0px;
+  margin-top: 15px;
+}
+.increment{
+  background: white;
+  border: none;
+  height: 50px;
+}
+
+.increment-pic{
+  width: 50%;
+  height: 50px;
 }
 
 .main-scoreboard-container{
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-    align-items: center;
+    align-items: flex-atartz`;
     width: 100%;
 }
 .home-team-container{
   display: flex;
   flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
   width: 30%;
 }
+
+.home-team-container h1{
+  font-size: 15em;
+  margin: 0;
+  text-align: center;
+}
 .serve-container{
-  width: 30%;
+  width: 10%;
   text-align: center;
 }
 .current-serve{
@@ -220,14 +252,21 @@ form{
 .opponent-container{
   display: flex;
   flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
   width: 30%;
+}
+.opponent-container h1{
+  font-size: 15em;
+  margin: 0;
+  text-align: center;
 }
 .button-container{
   display: flex;
   flex-flow: row wrap;
-  width: 100%;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  width: 60%;
+  margin-top: 25px;
+  margin-bottom: 10px;
 }
 .button-container button{
 
