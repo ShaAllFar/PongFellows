@@ -108,6 +108,7 @@ function handleCreateUserEvent(event) {
 //Handles User Login Event through Validation --> index.html
 function handleValidateEvent(event) {
   event.preventDefault();
+  var existingUserIndex = -1;
   var userExists = false;
   var logInName = event.target.signInName.value.toString().toUpperCase();
   var logInPassword = event.target.signInPassword.value.toString();
@@ -117,12 +118,14 @@ function handleValidateEvent(event) {
     for (var i = 0; i < allUsers.length; i++) {
       if (logInName === allUsers[i].userName.toUpperCase() && logInPassword === allUsers[i].password) {
         userExists = true;
+        activeUserIndex = i;
       }
     }
     if (userExists) {
-      //store new user into local storage
-      // localStorage.setItem('storedUsers', JSON.stringify(allUsers));
-      // localStorage.setItem('storedActiveUser', JSON.stringify(logInName));
+      console.log('I found an existing user at index: ' + activeUserIndex);
+      localStorage.setItem('storedActiveUserIndex', JSON.stringify(activeUserIndex));
+      localStorage.setItem('storedUsers', JSON.stringify(allUsers));
+      localStorage.setItem('storedActiveUser', JSON.stringify(logInName));
       window.location = 'setup.html';
     } else if (!userExists) {
       console.log('I did not find an existing user');
@@ -152,10 +155,10 @@ function handleValidateEvent(event) {
 if (localStorage.storedActiveUser) {
   (function findActiveUser() {
     console.log('I am looking for the active user');
-    var checkForUser = JSON.parse(localStorage.storedActiveUser);
+    var checkForUser = JSON.parse(localStorage.storedActiveUser).toString().toUpperCase();
     var foundUser = false;
     for (var i = 0; i < allUsers.length; i++) {
-      if (checkForUser === allUsers[i].userName) {
+      if (checkForUser == allUsers[i].userName.toUpperCase()) {
         foundUser = true;
         activeUserIndex = i;
       }
