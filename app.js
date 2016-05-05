@@ -265,13 +265,13 @@ function handleOpponentChangeEvent(event) {
   console.log('this is the opponent index: ' + opponentIndex);
   var winList = document.getElementById('win-list');
   var lossList = document.getElementById('loss-list');
-  var winPercentList = document.getElementById('win-percent-list');
+  // var winPercentList = document.getElementById('win-percent-list');
   if (opponentName.value == 'new-opponent') {
     // console.log('There were previous opponents, but I want to make a new one');
     if (winList || lossList || winPercentList) {
       opponentRecordList.removeChild(winList);
       opponentRecordList.removeChild(lossList);
-      opponentRecordList.removeChild(winPercentList);
+      // opponentRecordList.removeChild(winPercentList);
     }
     if (!document.getElementById('enter-new-opponent')) {
       createTextBox();
@@ -282,7 +282,7 @@ function handleOpponentChangeEvent(event) {
     } else if (document.getElementById('win-list')) {
       opponentRecordList.removeChild(winList);
       opponentRecordList.removeChild(lossList);
-      opponentRecordList.removeChild(winPercentList);
+      // opponentRecordList.removeChild(winPercentList);
       calculateAndDisplayOpponentWinPercentage();
     }
     // console.log('I want to remove the text box');
@@ -405,14 +405,20 @@ if (scoreboardButtonContainer) {
 function homePowerUp(event){
   globalHomeScore++;
   globalCounter++;
-  serverChange();
   homeScore.textContent = pad2(globalHomeScore);
+  if (globalHomeScore === endGameScore - 1) {
+    homeGamePoint();
+  } else if (globalAwayScore === endGameScore - 1) {
+    awayGamePoint();
+  } else {
+    serverChange();
+  }
   if (globalHomeScore === globalAwayScore && globalHomeScore === endGameScore - 1) {
     // homeGamePoint();
     console.log('endGameScore increments');
     endGameScore++;
   }
-  if (endGameScore == globalHomeScore){
+  if (endGameScore === globalHomeScore){
     if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
       alertify.alert(allUsers[activeUserIndex].userName + ' WINS!!!');
       homeUp.removeEventListener('click', homePowerUp);
@@ -427,7 +433,6 @@ function homePowerUp(event){
       // console.log(endGameScore + 'this should go up by 1');
     }
   }
-  homeGamePoint();
 }
 //Score decrementor event callback function for current active user --> scoreboard.html
 function homePowerDown(event){
@@ -437,7 +442,13 @@ function homePowerDown(event){
     endGameScore--;
     awayGamePoint();
   }
-  serverChange();
+  if (globalHomeScore === endGameScore - 1) {
+    homeGamePoint();
+  } else if (globalAwayScore === endGameScore - 1) {
+    awayGamePoint();
+  } else {
+    serverChange();
+  }
   if (globalHomeScore < 1) {
     globalHomeScore = 00;
   }
@@ -448,14 +459,20 @@ function homePowerDown(event){
 function awayPowerUp(event){
   globalAwayScore++;
   globalCounter++;
-  serverChange();
   awayScore.textContent = pad2(globalAwayScore);
+  if (globalHomeScore === endGameScore - 1) {
+    homeGamePoint();
+  } else if (globalAwayScore === endGameScore - 1) {
+    awayGamePoint();
+  } else {
+    serverChange();
+  }
   if (globalHomeScore === globalAwayScore && globalAwayScore === endGameScore - 1) {
     // awayGamePoint();
     console.log('endGameScore increments');
     endGameScore++;
   }
-  if (endGameScore == globalAwayScore){
+  if (endGameScore === globalAwayScore){
     if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
       console.log('away fucking won');
       // allUsers[activeUserIndex].opponentsArray[opponentIndex][1] + 1;
@@ -473,7 +490,6 @@ function awayPowerUp(event){
     //   console.log(endGameScore + ' this should go up by 1');
     // }
   }
-  awayGamePoint();
 }
 //Score decrementor event callback function for current active opponent --> scoreboard.html
 function awayPowerDown(event){
@@ -483,7 +499,13 @@ function awayPowerDown(event){
     endGameScore--;
     homeGamePoint();
   }
-  serverChange();
+  if (globalHomeScore === endGameScore - 1) {
+    homeGamePoint();
+  } else if (globalAwayScore === endGameScore - 1) {
+    awayGamePoint();
+  } else {
+    serverChange();
+  }
   if (globalAwayScore < 1) {
     globalAwayScore = 00;
   }
@@ -562,6 +584,8 @@ var userResults = document.getElementById('user-results');
 // var opponentResults = document.getElementById('opponent-results');
 var listResults = document.getElementById('list-record');
 //Renders table on page load for current active user --> results.html
+var mainTable = document.createElement('table');
+
 if (userResults) {
   (function renderUserData() {
     userTotalWinsAndLosses();
@@ -597,63 +621,84 @@ if (userResults) {
   })();
 }
 //Renders table on page load for all opponents of current active user --> results.html
-if (listResults) {
-  (function renderOpponentData() {
-    // var formContainer = document.createElement('form');
-    // formContainer.setAttribute('id', 'opponent-data-container');
-    // listResults.appendChild(formContainer);
-    var mainTable = document.createElement('table');
-    listResults.appendChild(mainTable);
-    var mainTrEl = document.createElement('tr');
-    mainTable.appendChild(mainTrEl);
-    var thEl1 = document.createElement('th');
-    thEl1.textContent = 'OPPONENT';
-    var thEl2 = document.createElement('th');
-    thEl2.textContent = 'WINS';
-    var thEl3 = document.createElement('th');
-    thEl3.textContent = 'LOSSES';
-    var thEl4 = document.createElement('th');
-    thEl4.textContent = 'WIN %';
-    mainTrEl.appendChild(thEl1);
-    mainTrEl.appendChild(thEl2);
-    mainTrEl.appendChild(thEl3);
-    mainTrEl.appendChild(thEl4);
+function renderOpponentData() {
+  // var formContainer = document.createElement('form');
+  // formContainer.setAttribute('id', 'opponent-data-container');
+  // listResults.appendChild(formContainer);
+  listResults.appendChild(mainTable);
+  var mainTrEl = document.createElement('tr');
+  mainTable.appendChild(mainTrEl);
+  var thEl1 = document.createElement('th');
+  thEl1.textContent = 'OPPONENT';
+  var thEl2 = document.createElement('th');
+  thEl2.textContent = 'WINS';
+  var thEl3 = document.createElement('th');
+  thEl3.textContent = 'LOSSES';
+  var thEl4 = document.createElement('th');
+  thEl4.textContent = 'WIN %';
+  mainTrEl.appendChild(thEl1);
+  mainTrEl.appendChild(thEl2);
+  mainTrEl.appendChild(thEl3);
+  mainTrEl.appendChild(thEl4);
 
-    for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
-      var trEl = document.createElement('tr');
-      trEl.setAttribute('id', 'opponent' + i);
-      var tdEl1 = document.createElement('td');
-      var tdEl2 = document.createElement('td');
-      var tdEl3 = document.createElement('td');
-      var tdEl4 = document.createElement('td');
-      tdEl1.textContent = allUsers[activeUserIndex].opponentsArray[i][0];
-      tdEl2.textContent = allUsers[activeUserIndex].opponentsArray[i][1];
-      tdEl3.textContent = allUsers[activeUserIndex].opponentsArray[i][2];
-      tdEl4.textContent = calculateOpponentPercentage(i);
-      mainTable.appendChild(trEl);
-      trEl.appendChild(tdEl1);
-      trEl.appendChild(tdEl2);
-      trEl.appendChild(tdEl3);
-      trEl.appendChild(tdEl4);
-      var removeButton = document.createElement('button');
-      removeButton.setAttribute('class', 'remove-opponent');
-      // removeButton.setAttribute('type', 'submit');
-      removeButton.setAttribute('id', allUsers[activeUserIndex].opponentsArray[i][0]);
-      removeButton.textContent = 'Delete Opponent';
-      trEl.appendChild(removeButton);
-      var hrEl = document.createElement('hr');
-      mainTable.appendChild(hrEl);
-    }
-  })();
+  for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
+    var trEl = document.createElement('tr');
+    trEl.setAttribute('id', 'opponent' + i);
+    var tdEl1 = document.createElement('td');
+    var tdEl2 = document.createElement('td');
+    var tdEl3 = document.createElement('td');
+    var tdEl4 = document.createElement('td');
+    tdEl1.textContent = allUsers[activeUserIndex].opponentsArray[i][0];
+    tdEl2.textContent = allUsers[activeUserIndex].opponentsArray[i][1];
+    tdEl3.textContent = allUsers[activeUserIndex].opponentsArray[i][2];
+    tdEl4.textContent = calculateOpponentPercentage(i);
+    mainTable.appendChild(trEl);
+    trEl.appendChild(tdEl1);
+    trEl.appendChild(tdEl2);
+    trEl.appendChild(tdEl3);
+    trEl.appendChild(tdEl4);
+    var removeButton = document.createElement('button');
+    removeButton.setAttribute('class', 'remove-opponent');
+    // removeButton.setAttribute('type', 'submit');
+    removeButton.setAttribute('id', allUsers[activeUserIndex].opponentsArray[i][0]);
+    removeButton.textContent = 'Delete';
+    trEl.appendChild(removeButton);
+    var hrEl = document.createElement('hr');
+    mainTable.appendChild(hrEl);
+  }
+}
+if (listResults) {
+  renderOpponentData();
 }
 
-if (opponentFormContainer) {
-  var opponentFormContainer = document.getElementById('opponent-data-container');
-  opponentFormContainer.addEventListener('click', handleDeleteOpponent);
+function resetTable() {
+  var newMainTable = document.createElement('table');
+  mainTable.parentNode.replaceChild(newMainTable, mainTable);
+  mainTable = newMainTable;
+}
+
+if (listResults) {
+  listResults.addEventListener('click', handleDeleteOpponent);
 }
 function handleDeleteOpponent(event) {
   event.preventDefault();
   console.log(event.target.id);
+  var foundOpponentName = false;
+  var index = 0;
+  for (var i = 0; i < allUsers[activeUserIndex].opponentsArray.length; i++) {
+    if (allUsers[activeUserIndex].opponentsArray[i][0] === event.target.id.toString()) {
+      foundOpponentName = true;
+      index = i;
+    }
+  }
+  if (foundOpponentName) {
+    // console.log(allUsers[activeUserIndex].opponentsArray[index]);
+    allUsers[activeUserIndex].opponentsArray.splice(index, 1);
+    localStorage.setItem('storedUsers', JSON.stringify(allUsers));
+    resetTable();
+    renderOpponentData();
+  }
+  // console.log(allUsers[activeUserIndex].opponentsArray[index]);
 }
 var newOpponentButton = document.getElementById('new-opponent-button');
 var rematchButton = document.getElementById('rematch-button');
