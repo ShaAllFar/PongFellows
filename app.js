@@ -45,7 +45,11 @@ function userTotalWinsAndLosses() {
 //   console.log(this.percentage);
 // };
 function userPercentageWins() {
-  allUsers[activeUserIndex].percentage = parseInt((allUsers[activeUserIndex].wins) / (allUsers[activeUserIndex].loss + allUsers[activeUserIndex].wins) * 100);
+  if ((allUsers[activeUserIndex].loss + allUsers[activeUserIndex].wins) != 0) {
+    allUsers[activeUserIndex].percentage = parseInt((allUsers[activeUserIndex].wins) / (allUsers[activeUserIndex].loss + allUsers[activeUserIndex].wins) * 100);
+  } else {
+    allUsers[activeUserIndex].percentage = '';
+  }
 }
 
 var Shawn = new UserObject('Shawn', 'coolguy');
