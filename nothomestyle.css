@@ -431,3 +431,12 @@ border-collapse: collapse;
 hr {
   display: none;
 }
+
+button:hover{
+  background-color: #990000;
+  border-color: #990000
+}
+
+.home-team-container button:hover,.opponent-container button:hover{
+  background-color: white;
+}

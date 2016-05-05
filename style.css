@@ -104,3 +104,8 @@ font-size: 1.2em;
 input:focus, button:focus{
   outline: none;
 }
+
+button:hover{
+  background-color: #990000;
+  border-color: #990000
+}
