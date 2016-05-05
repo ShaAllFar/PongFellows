@@ -744,8 +744,8 @@ function editAlert(){
     img.setAttribute('src', 'img/pong-fellows-logo.png');
     img.setAttribute('class', 'alert-logo');
     alertHead[i].textContent = '';
-    firstName.textContent = 'Pong';
-    lastName.textContent = 'Fellows';
+    firstName.textContent = 'PONG';
+    lastName.textContent = 'FELLOWS';
     alertHead[i].appendChild(img);
     alertHead[i].appendChild(divNew);
     divNew.appendChild(firstName);
