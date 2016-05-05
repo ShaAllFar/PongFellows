@@ -107,6 +107,8 @@ function handleValidateEvent(event) {
   var userExists = false;
   var logInName = event.target.signInName.value.toString().toUpperCase();
   var logInPassword = event.target.signInPassword.value.toString();
+  localStorage.setItem('storedUsers', JSON.stringify(allUsers));
+  localStorage.setItem('storedActiveUser', JSON.stringify(logInName));
   if (allUsers.length > 0) {
     for (var i = 0; i < allUsers.length; i++) {
       if (logInName === allUsers[i].userName.toUpperCase() && logInPassword === allUsers[i].password) {
@@ -115,8 +117,8 @@ function handleValidateEvent(event) {
     }
     if (userExists) {
       //store new user into local storage
-      localStorage.setItem('storedUsers', JSON.stringify(allUsers));
-      localStorage.setItem('storedActiveUser', JSON.stringify(logInName));
+      // localStorage.setItem('storedUsers', JSON.stringify(allUsers));
+      // localStorage.setItem('storedActiveUser', JSON.stringify(logInName));
       window.location = 'setup.html';
     } else if (!userExists) {
       console.log('I did not find an existing user');
@@ -185,7 +187,9 @@ function findOpponentIndex(opponentNameValue) {
 //On page load, adds existing opponents in a specific User's opponentsArray into the select drop down box using appendChild --> setup.html
 if (opponentName) {
   (function extendActiveOpponentsList() {
+    console.log(activeUserIndex);
     var currentUser = allUsers[activeUserIndex];
+    console.log(currentUser);
     if (currentUser.opponentsArray.length > 0) {
       for (var i = 0; i < currentUser.opponentsArray.length; i++) {
         var optionEl = document.createElement('option');
@@ -203,6 +207,7 @@ function createTextBox() {
   inputEl.setAttribute('type', 'text');
   inputEl.setAttribute('name', 'enterNewOpponent');
   inputEl.setAttribute('size', '15');
+  inputEl.setAttribute('name', 'newOpponent');
   opponentRecord.appendChild(inputEl);
 }
 //Calculates and displays total wins, total losses, and percentage for active user --> setup.html
@@ -268,7 +273,7 @@ function handleOpponentChangeEvent(event) {
   // var winPercentList = document.getElementById('win-percent-list');
   if (opponentName.value == 'new-opponent') {
     // console.log('There were previous opponents, but I want to make a new one');
-    if (winList || lossList || winPercentList) {
+    if (winList || lossList) {
       opponentRecordList.removeChild(winList);
       opponentRecordList.removeChild(lossList);
       // opponentRecordList.removeChild(winPercentList);
@@ -296,6 +301,9 @@ function handleOpponentChangeEvent(event) {
 function handleSetUpEvent(event) {
   event.preventDefault();
   console.log('I entered the submit event');
+  if (!event.target.newOpponent.value) {
+    return alertify.alert('Please enter an opponent name.');
+  }
   for (var i = 0; i < 3; i++) {
     if (endScore[i].checked) {
       var radioValue = endScore[i].value;
