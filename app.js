@@ -1,3 +1,4 @@
+var alertHead = document.getElementsByClassName('ajs-header');
 var allUsers = [];
 var activeUserIndex = 0;
 var opponentIndex = -1;
@@ -80,7 +81,7 @@ function handleCreateUserEvent(event) {
   event.preventDefault();
   if (!event.target.signUpName.value || !event.target.signUpPassword.value) {
     alertify.alert('Please enter a valid Username and Password.');
-    editAlert();
+    return editAlert();
   }
   var foundUserName = false;
   var newName = event.target.signUpName.value.toString().toUpperCase();
@@ -742,8 +743,7 @@ function resultsSetup() {
   window.location.href = 'results.html';
 }
 
-var alertHead = document.getElementsByClassName('ajs-header');
-console.log(alertHead);
+// console.log(alertHead);
 
 function editAlert(){
   for (var i = 0; i < alertHead.length; i++) {
