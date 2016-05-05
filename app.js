@@ -23,14 +23,7 @@ function UserObject(name, password) {
   this.loss = 0;
   this.percentage = 0;
 }
-// UserObject.prototype.userTotalWinsAndLosses = function() {
-//   for (var i = 0; i < this.opponentsArray.length; i++) {
-//     this.wins += this.opponentsArray[i][2];
-//     this.loss += this.opponentsArray[i][1];
-//   }
-//   console.log('the number of wins is ' + this.wins);
-//   console.log('the number of losses is ' + this.loss);
-// };
+
 function userTotalWinsAndLosses() {
   var totalWins = 0;
   var totalLoss = 0;
@@ -41,10 +34,7 @@ function userTotalWinsAndLosses() {
   allUsers[activeUserIndex].wins = totalWins;
   allUsers[activeUserIndex].loss = totalLoss;
 }
-// UserObject.prototype.userPercentageWins = function() {
-//   this.percentage = parseInt((this.wins / (this.loss + this.wins)) * 100);
-//   console.log(this.percentage);
-// };
+
 function userPercentageWins() {
   if ((allUsers[activeUserIndex].loss + allUsers[activeUserIndex].wins) != 0) {
     allUsers[activeUserIndex].percentage = parseInt((allUsers[activeUserIndex].wins) / (allUsers[activeUserIndex].loss + allUsers[activeUserIndex].wins) * 100);
@@ -455,10 +445,6 @@ function homePowerUp(event){
       awayDown.removeEventListener('click', awayPowerDown);
       scoreboardButtonContainer.style.visibility = 'visible';
       saveOpponentLossRecord();
-    // }
-    // else{
-      // endGameScore++;
-      // console.log(endGameScore + 'this should go up by 1');
     }
   }
 }
@@ -505,8 +491,6 @@ function awayPowerUp(event){
   if (endGameScore === globalAwayScore){
     if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
       console.log('away fucking won');
-      // allUsers[activeUserIndex].opponentsArray[opponentIndex][1] + 1;
-      // console.log('Opponent score for wins should have gone up, it is: ' + allUsers[activeUserIndex].opponentsArray[opponentIndex][1]);
       alertify.alert(JSON.parse(localStorage.storedActiveOpponent) + ' WINS!!!');
       editAlert();
       homeUp.removeEventListener('click', homePowerUp);
@@ -516,10 +500,6 @@ function awayPowerUp(event){
       scoreboardButtonContainer.style.visibility = 'visible';
       saveOpponentWinRecord();
     }
-    // else{
-    //   // endGameScore++;
-    //   console.log(endGameScore + ' this should go up by 1');
-    // }
   }
 }
 //Score decrementor event callback function for current active opponent --> scoreboard.html
@@ -656,9 +636,6 @@ if (userResults) {
 }
 //Renders table on page load for all opponents of current active user --> results.html
 function renderOpponentData() {
-  // var formContainer = document.createElement('form');
-  // formContainer.setAttribute('id', 'opponent-data-container');
-  // listResults.appendChild(formContainer);
   listResults.appendChild(mainTable);
   var mainTrEl = document.createElement('tr');
   mainTable.appendChild(mainTrEl);
@@ -737,10 +714,6 @@ function handleDeleteOpponent(event) {
 var newOpponentButton = document.getElementById('new-opponent-button');
 var rematchButton = document.getElementById('rematch-button');
 var resultsButton = document.getElementById('records-button');
-
-// newOpponentButton.addEventListener('click', newOpponentSetup);
-// rematchButton.addEventListener('click', rematchSetup);
-// resultsButton.addEventListener('click', resultsSetup);
 
 function newOpponentSetup() {
   window.location.href = 'setup.html';
