@@ -412,3 +412,11 @@ border-collapse: collapse;
 hr {
   display: none;
 }
+
+#setupBorder {
+  border-color: grey;
+  background-color: lightgrey;
+  width: 60%;
+  margin-top: 5%;
+  padding-bottom: 2%;
+}
