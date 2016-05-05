@@ -413,7 +413,13 @@ button {
   font-size: 30px;
   padding-bottom: 10px;
 }
+.list-record{
+  margin-left: 40px;
+}
 
+.remove-opponent{
+  width: 75px;
+}
 table {
 width: 800px;
 padding: 10px;

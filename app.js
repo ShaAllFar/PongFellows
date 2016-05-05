@@ -598,45 +598,48 @@ function saveOpponentLossRecord() {
 }
 
 //Results.html JS
-var userResults = document.getElementById('user-results');
+// var userResults = document.getElementById('user-results');
 // var opponentResults = document.getElementById('opponent-results');
 var listResults = document.getElementById('list-record');
 //Renders table on page load for current active user --> results.html
 var mainTable = document.createElement('table');
-
-if (userResults) {
-  (function renderUserData() {
-    userTotalWinsAndLosses();
-    userPercentageWins();
-    var trEl1 = document.createElement('tr');
-    userResults.appendChild(trEl1);
-    var thEl1 = document.createElement('th');
-    thEl1.textContent = 'CURRENT USER';
-    var thEl2 = document.createElement('th');
-    thEl2.textContent = 'WINS';
-    var thEl3 = document.createElement('th');
-    thEl3.textContent = 'LOSSES';
-    var thEl4 = document.createElement('th');
-    thEl4.textContent = 'WIN %';
-    trEl1.appendChild(thEl1);
-    trEl1.appendChild(thEl2);
-    trEl1.appendChild(thEl3);
-    trEl1.appendChild(thEl4);
-    var trEl2 = document.createElement('tr');
-    userResults.appendChild(trEl2);
-    var tdEl1 = document.createElement('td');
-    tdEl1.textContent = allUsers[activeUserIndex].userName;
-    var tdEl2 = document.createElement('td');
-    tdEl2.textContent = allUsers[activeUserIndex].wins;
-    var tdEl3 = document.createElement('td');
-    tdEl3.textContent = allUsers[activeUserIndex].loss;
-    var tdEl4 = document.createElement('td');
-    tdEl4.textContent = allUsers[activeUserIndex].percentage;
-    trEl2.appendChild(tdEl1);
-    trEl2.appendChild(tdEl2);
-    trEl2.appendChild(tdEl3);
-    trEl2.appendChild(tdEl4);
-  })();
+var userTable = document.createElement('table');
+var overallRecord = document.getElementById('overall-record');
+function renderUserData() {
+  userTotalWinsAndLosses();
+  userPercentageWins();
+  overallRecord.appendChild(userTable);
+  var trEl1 = document.createElement('tr');
+  userTable.appendChild(trEl1);
+  var thEl1 = document.createElement('th');
+  thEl1.textContent = 'CURRENT USER';
+  var thEl2 = document.createElement('th');
+  thEl2.textContent = 'WINS';
+  var thEl3 = document.createElement('th');
+  thEl3.textContent = 'LOSSES';
+  var thEl4 = document.createElement('th');
+  thEl4.textContent = 'WIN %';
+  trEl1.appendChild(thEl1);
+  trEl1.appendChild(thEl2);
+  trEl1.appendChild(thEl3);
+  trEl1.appendChild(thEl4);
+  var trEl2 = document.createElement('tr');
+  userTable.appendChild(trEl2);
+  var tdEl1 = document.createElement('td');
+  tdEl1.textContent = allUsers[activeUserIndex].userName;
+  var tdEl2 = document.createElement('td');
+  tdEl2.textContent = allUsers[activeUserIndex].wins;
+  var tdEl3 = document.createElement('td');
+  tdEl3.textContent = allUsers[activeUserIndex].loss;
+  var tdEl4 = document.createElement('td');
+  tdEl4.textContent = allUsers[activeUserIndex].percentage;
+  trEl2.appendChild(tdEl1);
+  trEl2.appendChild(tdEl2);
+  trEl2.appendChild(tdEl3);
+  trEl2.appendChild(tdEl4);
+}
+if (overallRecord) {
+  renderUserData();
 }
 //Renders table on page load for all opponents of current active user --> results.html
 function renderOpponentData() {
@@ -691,6 +694,11 @@ function resetTable() {
   mainTable.parentNode.replaceChild(newMainTable, mainTable);
   mainTable = newMainTable;
 }
+function resetUserTable() {
+  var newUserTable = document.createElement('table');
+  userTable.parentNode.replaceChild(newUserTable, userTable);
+  userTable = newUserTable;
+}
 
 if (listResults) {
   listResults.addEventListener('click', handleDeleteOpponent);
@@ -710,6 +718,8 @@ function handleDeleteOpponent(event) {
     // console.log(allUsers[activeUserIndex].opponentsArray[index]);
     allUsers[activeUserIndex].opponentsArray.splice(index, 1);
     localStorage.setItem('storedUsers', JSON.stringify(allUsers));
+    resetUserTable();
+    renderUserData();
     resetTable();
     renderOpponentData();
   }
@@ -744,8 +754,8 @@ function editAlert(){
     img.setAttribute('src', 'img/pong-fellows-logo.png');
     img.setAttribute('class', 'alert-logo');
     alertHead[i].textContent = '';
-    firstName.textContent = 'Pong';
-    lastName.textContent = 'Fellows';
+    firstName.textContent = 'PONG';
+    lastName.textContent = 'FELLOWS';
     alertHead[i].appendChild(img);
     alertHead[i].appendChild(divNew);
     divNew.appendChild(firstName);
