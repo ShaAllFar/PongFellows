@@ -7,13 +7,20 @@
   </head>
   <body>
     <div id="nav-bar" class="nav-bar">
-      <img src="img/logo.png" />
+      <div id="logo-container" class="logo-container">
+          <img class="logo-placeholder"src="img/pong-fellows-logo.png" alt="logo">
+        <div class="logo-text">
+          <h1>PONG</h1>
+          <h1>FELLOWS</h1>
+        </div>
+      </div>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="setup.html">Settings</a></li>
+        <li><a  href="setup.html">Game Setup</a></li>
+        <li><a id="current" href="scoreboard.html">Score Board</a></li>
         <li><a href="results.html">Records</a></li>
         <li><a href="about-us.html">About Us</a></li>
-        <li><a href="https://en.wikipedia.org/wiki/Table_tennis" target="_blank">Learn Game Play!</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Table_tennis" target="_blank">Rules</a></li>
       </ul>
     </div>
     <div id="main-container" class="main-container">
@@ -24,21 +31,21 @@
         </div>
         <div id="main-scoreboard-container" class="main-scoreboard-container">
           <div id="home-team-container" class="home-team-container">
-            <button id="home-up"class="increment" type="button" name="plus-home"><img class="increment-pic"  src="img/plus_add_green.png" alt="Increment"></button>
+            <button id="home-up"class="increment" type="button" name="plus-home"><img class="increment-pic"  src="img/chevron-up.png" alt="Increment"></button>
             <h1 id="home-score">00</h1>
-            <button id="home-down"class="increment" type="button" name="minus-home"><img class="increment-pic" src="img/minus_remove_green.png" alt="deincrement"></button>
+            <button id="home-down"class="increment" type="button" name="minus-home"><img class="increment-pic" src="img/chevron-down.png" alt="deincrement"></button>
           </div>
           <div id="serve-container" class="serve-container">
-            <h3 id="serve-tag" class="serve-tag">Serve</h3>
+            <h3 id="serve-tag" class="serve-tag">SERVE</h3>
             <div id="current-serve" class="current-serve">
               <div id="current-home-serve"></div>
               <div id="current-away-serve"></div>
             </div>
           </div>
           <div id="opponent-container" class="opponent-container">
-            <button id="away-up"class="increment" type="button" name="plus-opponent"><img class="increment-pic" src="img/plus_add_green.png" alt="Increment"></button>
+            <button id="away-up"class="increment" type="button" name="plus-opponent"><img class="increment-pic" src="img/chevron-up.png" alt="Increment"></button>
             <h1 id="away-score">00</h1>
-            <button id="away-down"class="increment" type="button" name="minus-opponent"><img class="increment-pic" src="img/minus_remove_green.png" alt="deincrement"></button>
+            <button id="away-down"class="increment" type="button" name="minus-opponent"><img class="increment-pic" src="img/chevron-down.png" alt="deincrement"></button>
           </div>
         </div>
       </div>
