@@ -381,6 +381,10 @@ if (opponentName) { //This event will create a textbox with one or no options in
 }
 //Scoreboard.html js
 
+function playPongAudio() {
+  var pongAudio = document.getElementById('pong-audio');
+  pongAudio.play();
+}
 //Displays active user name and active opponent name on scoreboard --> scoreboard.html
 if (document.getElementById('name-display-container')) {
   (function displayNamesOnScoreboard() {
@@ -425,6 +429,7 @@ if (scoreboardButtonContainer) {
 }
 //Score incrementor event callback function for current active user. Stops game when appropriate score value is achieved --> scoreboard.html
 function homePowerUp(event){
+  playPongAudio();
   globalHomeScore++;
   globalCounter++;
   homeScore.textContent = pad2(globalHomeScore);
@@ -459,6 +464,7 @@ function homePowerUp(event){
 }
 //Score decrementor event callback function for current active user --> scoreboard.html
 function homePowerDown(event){
+  playPongAudio();
   globalHomeScore--;
   globalCounter--;
   if (endGameScore != JSON.parse(localStorage.storedGameScore)) {
@@ -480,6 +486,7 @@ function homePowerDown(event){
 }
 //Score incrementor event callback function for current active opponent. Stops game when appropriate score value is achieved --> scoreboard.html
 function awayPowerUp(event){
+  playPongAudio();
   globalAwayScore++;
   globalCounter++;
   awayScore.textContent = pad2(globalAwayScore);
@@ -517,6 +524,7 @@ function awayPowerUp(event){
 }
 //Score decrementor event callback function for current active opponent --> scoreboard.html
 function awayPowerDown(event){
+  playPongAudio();
   globalAwayScore--;
   globalCounter--;
   if (endGameScore != JSON.parse(localStorage.storedGameScore)) {
