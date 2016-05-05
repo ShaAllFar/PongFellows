@@ -514,6 +514,7 @@ function awayPowerUp(event){
       awayUp.removeEventListener('click', awayPowerUp);
       awayDown.removeEventListener('click', awayPowerDown);
       scoreboardButtonContainer.style.visibility = 'visible';
+      awayScore.style.color = 'grey';
       saveOpponentWinRecord();
     }
     // else{

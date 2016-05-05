@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="shortcut icon" href="img/pong-fellows-logo.png" />
     <title>Scoreboard</title>
     <link href="nothomestyle.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/alertify.css" />
@@ -33,7 +32,7 @@
         <div id="main-scoreboard-container" class="main-scoreboard-container">
           <div id="home-team-container" class="home-team-container">
             <button id="home-up"class="increment" type="button" name="plus-home"><img class="increment-pic"  src="img/chevron-up.png" alt="Increment"></button>
-            <h1 id="home-score">00</h1>
+            <h1 id="home-score" class="score">00</h1>
             <button id="home-down"class="increment" type="button" name="minus-home"><img class="increment-pic" src="img/chevron-down.png" alt="deincrement"></button>
           </div>
           <div id="serve-container" class="serve-container">
@@ -45,7 +44,7 @@
           </div>
           <div id="opponent-container" class="opponent-container">
             <button id="away-up"class="increment" type="button" name="plus-opponent"><img class="increment-pic" src="img/chevron-up.png" alt="Increment"></button>
-            <h1 id="away-score">00</h1>
+            <h1 id="away-score" class="score">00</h1>
             <button id="away-down"class="increment" type="button" name="minus-opponent"><img class="increment-pic" src="img/chevron-down.png" alt="deincrement"></button>
           </div>
         </div>
@@ -57,6 +56,5 @@
       </div>
     </div>
     <script src="app.js"></script>
-    <audio id="pong-audio" src="media/pingPong.mp3" preload="auto"></audio>"
   </body>
 </html>
