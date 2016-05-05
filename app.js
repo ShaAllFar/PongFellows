@@ -1,3 +1,4 @@
+var alertHead = document.getElementsByClassName('ajs-header');
 var allUsers = [];
 var activeUserIndex = 0;
 var opponentIndex = -1;
@@ -79,7 +80,8 @@ allUsers.push(Sung);
 function handleCreateUserEvent(event) {
   event.preventDefault();
   if (!event.target.signUpName.value || !event.target.signUpPassword.value) {
-    return alertify.alert('Please enter a valid Username and Password.');
+    alertify.alert('Please enter a valid Username and Password.');
+    return editAlert();
   }
   var foundUserName = false;
   var newName = event.target.signUpName.value.toString().toUpperCase();
@@ -93,6 +95,7 @@ function handleCreateUserEvent(event) {
   }
   if (foundUserName) {
     alertify.alert('Sorry!  This username already exists.  Please try again.');
+    editAlert();
     event.target.signUpName.value = null;
     event.target.signUpPassword.value = null;
   }
@@ -130,10 +133,12 @@ function handleValidateEvent(event) {
     } else if (!userExists) {
       console.log('I did not find an existing user');
       alertify.alert('Incorrect username or password.  Please try again.');
+      editAlert();
     }
   } else {
     console.log('I did not find an existing user');
     alertify.alert('Incorrect username or password.  Please try again.');
+    editAlert();
   }
   event.target.signInName.value = null;
   event.target.signInPassword.value = null;
@@ -317,6 +322,7 @@ function handleSetUpEvent(event) {
   }
   if (opponentName.value == 'no-opponent') {
     alertify.alert('Please select an opponent.');
+    editAlert();
   }
   if (document.getElementById('enter-new-opponent')) {
     if (!event.target.newOpponent.value) {
@@ -327,6 +333,7 @@ function handleSetUpEvent(event) {
     // console.log(currentUser);
     if (findOpponentIndex(newOpponent.toUpperCase()) > -1) {
       alertify.alert('Opponent name already exists, please enter a new name.');
+      editAlert();
     } else {
       console.log('I want to enter a new opponent');
       currentUser.opponentsArray.push([newOpponent, 0, 0]);
@@ -436,6 +443,7 @@ function homePowerUp(event){
   if (endGameScore === globalHomeScore){
     if((((globalAwayScore - globalHomeScore) >= 2) || ((globalHomeScore - globalAwayScore) >= 2))) {
       alertify.alert(allUsers[activeUserIndex].userName + ' WINS!!!');
+      editAlert();
       homeUp.removeEventListener('click', homePowerUp);
       homeDown.removeEventListener('click', homePowerDown);
       awayUp.removeEventListener('click', awayPowerUp);
@@ -493,6 +501,7 @@ function awayPowerUp(event){
       // allUsers[activeUserIndex].opponentsArray[opponentIndex][1] + 1;
       // console.log('Opponent score for wins should have gone up, it is: ' + allUsers[activeUserIndex].opponentsArray[opponentIndex][1]);
       alertify.alert(JSON.parse(localStorage.storedActiveOpponent) + ' WINS!!!');
+      editAlert();
       homeUp.removeEventListener('click', homePowerUp);
       homeDown.removeEventListener('click', homePowerDown);
       awayUp.removeEventListener('click', awayPowerUp);
@@ -538,9 +547,11 @@ if (document.getElementById('serve-container')) {
     if (decision === 1) {
       homeServeLight.setAttribute('class', 'current-player-serve');
       alertify.alert(allUsers[activeUserIndex].userName + ' serves first!!!');
+      editAlert();
     } else if (decision === 2) {
       awayServeLight.setAttribute('class', 'current-player-serve');
       alertify.alert(JSON.parse(localStorage.storedActiveOpponent) + ' serves first!!!');
+      editAlert();
     }
   })();
 }
@@ -733,4 +744,21 @@ function rematchSetup() {
 
 function resultsSetup() {
   window.location.href = 'results.html';
+}
+
+// console.log(alertHead);
+
+function editAlert(){
+  for (var i = 0; i < alertHead.length; i++) {
+    var img = document.createElement('img');
+    var firstName = document.createElement('h2');
+    var lastName = document.createElement('h2');
+    img.setAttribute('src', 'img/pong-fellows-logo.png');
+    alertHead[i].textContent = '';
+    firstName.textContent = 'Pong';
+    lastName.textContent = 'Fellows';
+    alertHead[i].appendChild(img);
+    alertHead[i].appendChild(firstName);
+    alertHead[i].appendChild(lastName);
+  }
 }
