@@ -305,9 +305,6 @@ function handleOpponentChangeEvent(event) {
 function handleSetUpEvent(event) {
   event.preventDefault();
   console.log('I entered the submit event');
-  if (!event.target.newOpponent.value) {
-    return alertify.alert('Please enter an opponent name.');
-  }
   for (var i = 0; i < 3; i++) {
     if (endScore[i].checked) {
       var radioValue = endScore[i].value;
@@ -319,6 +316,9 @@ function handleSetUpEvent(event) {
     alertify.alert('Please select an opponent.');
   }
   if (document.getElementById('enter-new-opponent')) {
+    if (!event.target.newOpponent.value) {
+      return alertify.alert('Please enter an opponent name.');
+    }
     var newOpponent = event.target.enterNewOpponent.value.toString().toUpperCase();
     var currentUser = allUsers[activeUserIndex];
     // console.log(currentUser);
