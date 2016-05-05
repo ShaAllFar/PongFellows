@@ -878,13 +878,13 @@
 .ajs-content{
   text-align: center;
   font-size: 3em;
-  font-family: none;
+  font-family: 'Montserrat', sans-serif;
 }
 .ajs-header{
   display:flex;
   flex-direction: row;
   height: 4em;
-  font-family: none;
+  font-family: 'Montserrat', sans-serif;
   font-weight: bold;
 }
 .div-New{
@@ -895,7 +895,7 @@
   width: 60px;
 }
 .div-new h2{
-  margin: .5em 0px 0px 0px;
+  margin: 4px 0px 0px 0px;
 }
 #logo-last-name{
   margin: 0px;
