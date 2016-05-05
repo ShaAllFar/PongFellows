@@ -432,6 +432,7 @@ hr {
   display: none;
 }
 
+<<<<<<< HEAD
 button:hover{
   background-color: #990000;
   border-color: #990000
@@ -439,4 +440,12 @@ button:hover{
 
 .home-team-container button:hover,.opponent-container button:hover{
   background-color: white;
+=======
+#setupBorder {
+  border-color: grey;
+  background-color: lightgrey;
+  width: 60%;
+  margin-top: 5%;
+  padding-bottom: 2%;
+>>>>>>> master
 }
