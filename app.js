@@ -93,6 +93,8 @@ function handleCreateUserEvent(event) {
   }
   if (foundUserName) {
     alertify.alert('Sorry!  This username already exists.  Please try again.');
+    event.target.signUpName.value = null;
+    event.target.signUpPassword.value = null;
   }
   if (!foundUserName) {
     //store new user into local storage
@@ -102,8 +104,6 @@ function handleCreateUserEvent(event) {
     localStorage.setItem('storedUsers', JSON.stringify(allUsers));
     window.location = 'setup.html';
   }
-  event.target.newUserName.value = null;
-  event.target.newPassword.value = null;
 }
 //Handles User Login Event through Validation --> index.html
 function handleValidateEvent(event) {
@@ -319,7 +319,7 @@ function handleSetUpEvent(event) {
     if (!event.target.newOpponent.value) {
       return alertify.alert('Please enter an opponent name.');
     }
-    var newOpponent = event.target.enterNewOpponent.value.toString().toUpperCase();
+    var newOpponent = event.target.newOpponent.value.toString().toUpperCase();
     var currentUser = allUsers[activeUserIndex];
     // console.log(currentUser);
     if (findOpponentIndex(newOpponent.toUpperCase()) > -1) {
