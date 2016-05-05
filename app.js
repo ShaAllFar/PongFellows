@@ -381,6 +381,10 @@ if (opponentName) { //This event will create a textbox with one or no options in
 }
 //Scoreboard.html js
 
+function playPongAudio() {
+  var pongAudio = document.getElementById('pong-audio');
+  pongAudio.play();
+}
 //Displays active user name and active opponent name on scoreboard --> scoreboard.html
 if (document.getElementById('name-display-container')) {
   (function displayNamesOnScoreboard() {
@@ -425,6 +429,7 @@ if (scoreboardButtonContainer) {
 }
 //Score incrementor event callback function for current active user. Stops game when appropriate score value is achieved --> scoreboard.html
 function homePowerUp(event){
+  playPongAudio();
   globalHomeScore++;
   globalCounter++;
   homeScore.textContent = pad2(globalHomeScore);
@@ -459,6 +464,7 @@ function homePowerUp(event){
 }
 //Score decrementor event callback function for current active user --> scoreboard.html
 function homePowerDown(event){
+  playPongAudio();
   globalHomeScore--;
   globalCounter--;
   if (endGameScore != JSON.parse(localStorage.storedGameScore)) {
@@ -480,6 +486,7 @@ function homePowerDown(event){
 }
 //Score incrementor event callback function for current active opponent. Stops game when appropriate score value is achieved --> scoreboard.html
 function awayPowerUp(event){
+  playPongAudio();
   globalAwayScore++;
   globalCounter++;
   awayScore.textContent = pad2(globalAwayScore);
@@ -517,6 +524,7 @@ function awayPowerUp(event){
 }
 //Score decrementor event callback function for current active opponent --> scoreboard.html
 function awayPowerDown(event){
+  playPongAudio();
   globalAwayScore--;
   globalCounter--;
   if (endGameScore != JSON.parse(localStorage.storedGameScore)) {
@@ -750,16 +758,21 @@ function resultsSetup() {
 // console.log(alertHead);
 
 function editAlert(){
+  var divNew = document.createElement('div');
+  divNew.setAttribute('class', 'div-new');
   for (var i = 0; i < alertHead.length; i++) {
     var img = document.createElement('img');
     var firstName = document.createElement('h2');
     var lastName = document.createElement('h2');
+    lastName.setAttribute('id', 'logo-last-name');
     img.setAttribute('src', 'img/pong-fellows-logo.png');
+    img.setAttribute('class', 'alert-logo');
     alertHead[i].textContent = '';
     firstName.textContent = 'Pong';
     lastName.textContent = 'Fellows';
     alertHead[i].appendChild(img);
-    alertHead[i].appendChild(firstName);
-    alertHead[i].appendChild(lastName);
+    alertHead[i].appendChild(divNew);
+    divNew.appendChild(firstName);
+    divNew.appendChild(lastName);
   }
 }
