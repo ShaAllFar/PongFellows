@@ -317,6 +317,16 @@ button {
   font-family: 'News Cycle', sans-serif;
 }
 
+.Main {
+  display: flex;
+  flex-direction: row;
+}
+
+.Main p {
+  width: 50%;
+  margin-left: 5%;
+}
+
 .Kyle h1{
   font-family: 'Montserrat', sans-serif;
 }
