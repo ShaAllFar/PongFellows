@@ -444,6 +444,8 @@ function homePowerUp(event){
       awayUp.removeEventListener('click', awayPowerUp);
       awayDown.removeEventListener('click', awayPowerDown);
       scoreboardButtonContainer.style.visibility = 'visible';
+      homeScore.style.color = 'grey';
+      awayScore.style.color = 'grey';
       saveOpponentLossRecord();
     }
   }
@@ -498,6 +500,8 @@ function awayPowerUp(event){
       awayUp.removeEventListener('click', awayPowerUp);
       awayDown.removeEventListener('click', awayPowerDown);
       scoreboardButtonContainer.style.visibility = 'visible';
+      homeScore.style.color = 'grey';
+      awayScore.style.color = 'grey';
       saveOpponentWinRecord();
     }
   }
