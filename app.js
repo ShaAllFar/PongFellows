@@ -444,6 +444,8 @@ function homePowerUp(event){
       awayUp.removeEventListener('click', awayPowerUp);
       awayDown.removeEventListener('click', awayPowerDown);
       scoreboardButtonContainer.style.visibility = 'visible';
+      awayScore.style.color = 'grey';
+      homeScore.style.color = 'grey';
       saveOpponentLossRecord();
     }
   }
@@ -499,6 +501,7 @@ function awayPowerUp(event){
       awayDown.removeEventListener('click', awayPowerDown);
       scoreboardButtonContainer.style.visibility = 'visible';
       awayScore.style.color = 'grey';
+      homeScore.style.color = 'grey';
       saveOpponentWinRecord();
     }
   }
@@ -535,7 +538,7 @@ if (document.getElementById('serve-container')) {
     var decision = Math.floor(Math.random() * (2)) + 1;
     if (decision === 1) {
       homeServeLight.setAttribute('class', 'current-player-serve');
-      alertify.alert(allUsers[activeUserIndex].userName + ' serves first!!!');
+      alertify.alert(allUsers[activeUserIndex].userName + ' SERVES FIRST!');
       editAlert();
     } else if (decision === 2) {
       awayServeLight.setAttribute('class', 'current-player-serve');
